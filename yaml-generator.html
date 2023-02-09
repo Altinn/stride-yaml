@@ -144,17 +144,15 @@
         let f = document.getElementById("filteredcontent");
         f.innerHTML = document.getElementById("content").innerHTML;
         pruneoptional(f);
-        let d = new Date(Date.now());
-        let dd = d.getDate();
-        let mm = d.getMonth();
-        let yyyy = d.getFullYear();
+        //let d = new Date(Date.now());
+        //let dd = d.getDate();
+        //let mm = d.getMonth();
+        //let yyyy = d.getFullYear();
         let team = document.getElementById("team").children[0].value; // FIXME: too brittle
         let asset = document.getElementById("asset").children[2].value; // FIXME: too brittle
-        let filename = "" + yyyy + "-" + mm + "-" + dd + "-" + team + "-" + asset + "-_short_description_" + ".threat.yml";
+        let synopsis = document.getElementById("synopsis").children[2].value;
+        let filename = team + "-" + asset + "-"+synopsis+ ".threat.yml";
         download(f.textContent, "application/yaml", filename);
-        //download(f.textContent, "application/yaml", "somefile.threat.yml");
-        // download(document.getElementById("content").textContent, "application/yaml", "somefile.threat.yml");
-        // download(document.getElementById("content").textContent, "text/yaml", "somefile.threat.yml");
         return false;
     }
 
@@ -235,20 +233,21 @@
 
         <br/><br/>
 
+
+        <div class="field" id="synopsis">
+            <div class="brief">Synopsis</div .brief>
+            <div class="desc">Synopsis of limitations, boundaries or scenario summary.</div .desc>
+            <input name="synopsis" type="text" placeholder="one-liner beskrivelse..." class="long" oninput="change(this);" required/>
+            <div class="under">system for server-side generering av PDF med kjøring av React-app i Chromium innenfor Tjenesteeiers AKS-cluster</div .under>
+        </div .field>
+
         <div class="field" id="link">
             <div class="brief">link</div .brief>
             <div class="desc">URI to origin issue providing scenario definition.</div .desc>
             <input name="link" type="url" placeholder="https://..." pattern="^(https:\/\/)+[\w\-\._~:\/?#[\]@!\$&'\(\)\*\+,;=.]+$" oninput="change(this);" required/>
             <div class="under"></div .under>
         </div .field>
-
-        <div class="field" id="linkScope">
-            <div class="brief">linkScope</div .brief>
-            <div class="desc">Synopsis of limitations, boundaries or scenario summary.</div .desc>
-            <input name="linkScope" type="text" placeholder="one-liner beskrivelse..." class="long" oninput="change(this);" required/>
-            <div class="under">system for server-side generering av PDF med kjøring av React-app i Chromium innenfor Tjenesteeiers AKS-cluster</div .under>
-        </div .field>
-
+        
         <div class="field" id="model">
             <div class="brief">model</div .brief>
             <div class="desc">URI to sketch, story, markdown providing the evaluation of threats and a common understanding of the scenario.</div .desc>
