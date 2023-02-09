@@ -150,7 +150,7 @@
         //let yyyy = d.getFullYear();
         let team = document.getElementById("team").children[0].value; // FIXME: too brittle
         let asset = document.getElementById("asset").children[2].value; // FIXME: too brittle
-        let synopsis = document.getElementById("synopsis").children[2].value;
+        let synopsis = document.getElementById("synopsis").children[2].value.trim();
         let filename = team + "-" + asset + "-"+synopsis+ ".threat.yml";
         download(f.textContent, "application/yaml", filename);
         return false;
@@ -247,7 +247,7 @@
             <input name="link" type="url" placeholder="https://..." pattern="^(https:\/\/)+[\w\-\._~:\/?#[\]@!\$&'\(\)\*\+,;=.]+$" oninput="change(this);" required/>
             <div class="under"></div .under>
         </div .field>
-        
+
         <div class="field" id="model">
             <div class="brief">model</div .brief>
             <div class="desc">URI to sketch, story, markdown providing the evaluation of threats and a common understanding of the scenario.</div .desc>
