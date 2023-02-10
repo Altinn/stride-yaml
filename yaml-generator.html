@@ -132,8 +132,7 @@
 
     function download(content, mimeType, filename) {
         const a = document.createElement('a') // Create "a" element
-        const b = new Blob([content], {type: mimeType}) // Create a blob (file-like object)
-        const u = URL.createObjectURL(b) // Create an object URL from blob
+        const u = URL.createObjectURL(new Blob([content], {type: mimeType})) // Create an object URL
         a.setAttribute('href', u) // Set "a" element link
         a.setAttribute('download', filename) // Set download filename
         a.click() // Start downloading
