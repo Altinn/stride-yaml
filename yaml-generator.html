@@ -1,86 +1,84 @@
 <!DOCTYPE html>
 <html>
-<head>
-<title>YAML-template utfylling</title>
-<style>
-    html { color-scheme: dark; }
-    html.light { color-scheme: light; }
-    h3 { margin: 0 1em; filter: opacity(50%); font-style: italic; }
-    body { width: 90%; margin: 0 auto; font-family: Tahoma, Verdana, Arial, sans-serif; }
-    .theme { position: absolute; margin-top: -3ex; color: #aaaf; font-weight: bold; font-size: 300%; }
-    .theme.light { position: absolute; margin-top: -3ex; color: #000f; font-weight: bold; font-size: 300%; }
-    .theme:hover { cursor: pointer; }
-    .theme.lower { padding-top: 1px; } /* slight tweak offset */
-    #template { float:left; margin: 1ex auto; display: flex; border: 0px solid #ff06; padding: 0.5ex 0.5em; background-color: #6002; }
-    #template label:has( input:checked ) { font-weight: bold; font-style: normal; }
-    #template label:has( input:not(:checked) ) { font-weight: normal; font-style: italic; }
-    #template label { margin-left: 2em; }
-    #team { width:40%; float:left; clear: both; padding: 0.5ex 0.5em; background-color: #6602; }
-    #team select { width:100%; }
-    #wrap {  width: 100%; margin: auto; display: flex; border: 0px solid #aaa; }
-    #schema { width: 60%; padding: 1em; display: inline-block; }
-    #right { width: 40%; border: 0px solid #ff0; }
-    #content { width: 100%; padding: 1em; display: inline-block; border: 0px solid #000; background-color: rgba(127, 127, 127, 0.2); }
-    .right { clear: both; padding: 1ex 1em; }
-    input[type="submit"] { margin: 5px 0; } /* margin avoids jump when hovering for tooltip from data-tip attribute */
-    input[type="submit"]:hover { cursor: pointer; }
-    .field { width: 95%; clear: both; margin: 2ex auto; padding: 1ex 1em; border: 1px solid #aaa0; }
-    .field:hover { background-color: rgba(80, 80, 80, 0.1); border: 1px solid #6663; }
-    .field select { min-width: 30%; }
-    .field input { min-width: 30%; }
-    .field input[type="text"] { min-width: 30%; }
-    .field input[type="url"] { min-width: 80%; }
-    .field input.long { min-width: 80%; }
-    .field input.short { min-width: 30%; }
-    .field textarea { min-width: 80%; min-height: 2ex; overflow: hidden; }
-    .textclone { min-width: 80%; display: none; white-space: pre-wrap; word-wrap: break-word; margin: 0; padding: 0; border: 0; }
-    .brief { font-size: larger; font-weight: bold; }
-    .brief.required:after { content: " *"; color: #f00a }
-    .desc { margin: 0.5ex 0; filter: opacity(70%); font-style: italic; }
-    .desc a { font-weight: bold; text-decoration: none; color: #c62a; }
-    .under { margin-top: 0.5ex; filter: opacity(30%); font-style: italic; }
-    .under:not(:empty)::before { content: "E.g: "; font-style: normal; }
-    #o_linkScope, #o_threatInfo, #o_note { margin: 0 1em; display: inline-block; }
-    output.array { margin: 0 1em; display: block; clear: both; }
+  <head>
+    <title>YAML-template utfylling</title>
+    <style>
+      html { color-scheme: dark; }
+      html.light { color-scheme: light; }
+      h3 { margin: 0 1em; filter: opacity(50%); font-style: italic; }
+      body { width: 90%; margin: 0 auto; font-family: Tahoma, Verdana, Arial, sans-serif; }
+      .theme { position: absolute; margin-top: -3ex; color: #aaaf; font-weight: bold; font-size: 300%; }
+      .theme.light { position: absolute; margin-top: -3ex; color: #000f; font-weight: bold; font-size: 300%; }
+      .theme:hover { cursor: pointer; }
+      .theme.lower { padding-top: 1px; } /* slight tweak offset */
+      #template { float:left; margin: 1ex auto; display: flex; border: 0px solid #ff06; padding: 0.5ex 0.5em; background-color: #6002; }
+      #template label:has( input:checked ) { font-weight: bold; font-style: normal; }
+      #template label:has( input:not(:checked) ) { font-weight: normal; font-style: italic; }
+      #template label { margin-left: 2em; }
+      #team { width:40%; float:left; clear: both; padding: 0.5ex 0.5em; background-color: #6602; }
+      #team select { width:100%; }
+      #wrap {  width: 100%; margin: auto; display: flex; border: 0px solid #aaa; }
+      #schema { width: 60%; padding: 1em; display: inline-block; }
+      #right { width: 40%; border: 0px solid #ff0; }
+      #content { width: 100%; padding: 1em; display: inline-block; border: 0px solid #000; background-color: rgba(127, 127, 127, 0.2); }
+      .right { clear: both; padding: 1ex 1em; }
+      input[type="submit"] { margin: 5px 0; } /* margin avoids jump when hovering for tooltip from data-tip attribute */
+      input[type="submit"]:hover { cursor: pointer; }
+      .field { width: 95%; clear: both; margin: 2ex auto; padding: 1ex 1em; border: 1px solid #aaa0; }
+      .field:hover { background-color: rgba(80, 80, 80, 0.1); border: 1px solid #6663; }
+      .field select { min-width: 30%; }
+      .field input { min-width: 30%; }
+      .field input[type="text"] { min-width: 30%; }
+      .field input[type="url"] { min-width: 80%; }
+      .field input.long { min-width: 80%; }
+      .field input.short { min-width: 30%; }
+      .field textarea { min-width: 80%; min-height: 2ex; overflow: hidden; }
+      .textclone { min-width: 80%; display: none; white-space: pre-wrap; word-wrap: break-word; margin: 0; padding: 0; border: 0; }
+      .brief { font-size: larger; font-weight: bold; }
+      .brief.required:after { content: " *"; color: #f00a }
+      .desc { margin: 0.5ex 0; filter: opacity(70%); font-style: italic; }
+      .desc a { font-weight: bold; text-decoration: none; color: #c62a; }
+      .under { margin-top: 0.5ex; filter: opacity(30%); font-style: italic; }
+      .under:not(:empty)::before { content: "E.g: "; font-style: normal; }
+      #o_linkScope, #o_threatInfo, #o_note { margin: 0 1em; display: inline-block; }
+      output.array { margin: 0 1em; display: block; clear: both; }
+
+      /*
+         .sectioncontent.optional { filter: opacity(40%); }
+
+         .sectioncontent:has(> output:not(:empty)) { color: #ff0; }
+         .optional:has(> output:not(:empty)) { color: #aaa; }
+         .notoptional:has(> output:not(:empty)) { color: #aaa; }
 
 
 
-    /*
-    .sectioncontent.optional { filter: opacity(40%); }
+         .sectioncontent { filter: opacity(40%); }
+         output:empty { filter: opacity(40%); }
+         output:not(:empty) { filter: none; }
 
-    .sectioncontent:has(> output:not(:empty)) { color: #ff0; }
-    .optional:has(> output:not(:empty)) { color: #aaa; }
-    .notoptional:has(> output:not(:empty)) { color: #aaa; }
+         .optional:empty { filter: opacity(40%); }
+         .optional:not(:empty) { filter: none; }
+         span:has(> output:not(:empty)) { filter: none; }
+         .optional, .sectioncontent > span { filter: opacity(40%); } 
 
+         .sectioncontent:has(> output:not(:empty)) { filter: none; }
+         .sectioncontent > output:empty { filter: opacity(40%); } 
+         .sectioncontent > span:has(> output:not(:empty)) { filter: none; }
+         .optional:has(> output:not(:empty)) { filter: none; }
+         output:not(:empty) { filter: none; }
+       */
 
+      #filteredcontent { display: none; }
+      .section { font-size: larger; margin: 0 1em; font-style: italic; font-weight: bold; border: 1px solid #aaa0; }
+      .section::after { content: " +"; color: #3a38; font-weight: bold; font-size: x-large; }
+      .section.open { color: #3a38; }
+      .section.open::after { content: " -"; color: #a33a; font-weight: bold; font-size: x-large; }
+      .section:hover { background-color: rgba(80, 80, 80, 0.1); border: 1px solid #6663; cursor: pointer; }
+      .collapse { display: none; }
+      .collapse.open { display: block; border: 1px solid #3a38; }
 
-    .sectioncontent { filter: opacity(40%); }
-    output:empty { filter: opacity(40%); }
-    output:not(:empty) { filter: none; }
-    
-    .optional:empty { filter: opacity(40%); }
-    .optional:not(:empty) { filter: none; }
-    span:has(> output:not(:empty)) { filter: none; }
-    .optional, .sectioncontent > span { filter: opacity(40%); } 
-
-    .sectioncontent:has(> output:not(:empty)) { filter: none; }
-    .sectioncontent > output:empty { filter: opacity(40%); } 
-    .sectioncontent > span:has(> output:not(:empty)) { filter: none; }
-    .optional:has(> output:not(:empty)) { filter: none; }
-    output:not(:empty) { filter: none; }
-    */
-
-    #filteredcontent { display: none; }
-    .section { font-size: larger; margin: 0 1em; font-style: italic; font-weight: bold; border: 1px solid #aaa0; }
-    .section::after { content: " +"; color: #3a38; font-weight: bold; font-size: x-large; }
-    .section.open { color: #3a38; }
-    .section.open::after { content: " -"; color: #a33a; font-weight: bold; font-size: x-large; }
-    .section:hover { background-color: rgba(80, 80, 80, 0.1); border: 1px solid #6663; cursor: pointer; }
-    .collapse { display: none; }
-    .collapse.open { display: block; border: 1px solid #3a38; }
-
-    [data-tip]:hover::after,
-    [data-tip]:focus::after {
+      [data-tip]:hover::after,
+      [data-tip]:focus::after {
         content: attr(data-tip);
         position: inherit;
         margin: auto 1em;
@@ -95,51 +93,52 @@
         box-shadow: 1px 1px 5px 0 rgba(0,0,0,0.4);
         font-size: large;
         padding: 3px 5px;
-    }
+      }
 
-</style>
-</head>
-<body>
+    </style>
+  </head>
+  <body>
 
-<h1>YAML-template utfylling</h1>
-<h3>- last ned ferdig YAML-fil som følger et YAML-skjema</h3>
+    <h1>YAML-template utfylling</h1>
+    <h3>- last ned ferdig YAML-fil som følger et YAML-skjema</h3>
+    
+    <script>
 
-<script>
-    function change(el) {
+      function change(el) {
         let ol = document.getElementById(["o_" + el.name]);
         if (!ol) return false; // FIXME: too brittle
         if (el.parentElement.classList.contains("array")) {
-            let v = "";
-            for (let ll of el.value.split(/[\r\n]+/)) {
-                let s = ll.replace(/^\s*[-*]\s*/, "").trim();
-                if (s != "") v += "  - " + s + "<br/>\n"; // the breaks shows array elements nicely ordered on separate lines
-            }
-            ol.innerHTML = v; // need styled content instead of values since we have output-elements with break-children for each array element
+          let v = "";
+          for (let ll of el.value.split(/[\r\n]+/)) {
+            let s = ll.replace(/^\s*[-*]\s*/, "").trim();
+            if (s != "") v += "  - " + s + "<br/>\n"; // the breaks shows array elements nicely ordered on separate lines
+          }
+          ol.innerHTML = v; // need styled content instead of values since we have output-elements with break-children for each array element
         } else {
-            ol.value = el.value;
+          ol.value = el.value;
         }
         if (el.tagName === "TEXTAREA") {
-            let cl = el.nextElementSibling;
-            cl.innerHTML = el.value;
-            cl.style.visibility = "hidden";
-            cl.style.display = "block";
-            el.style.height = cl.offsetHeight + 5 + 'px'; // avoids cutting short
-            cl.style.visibility = "visible";
-            cl.style.display = "none";
+          let cl = el.nextElementSibling;
+          cl.innerHTML = el.value;
+          cl.style.visibility = "hidden";
+          cl.style.display = "block";
+          el.style.height = cl.offsetHeight + 5 + 'px'; // avoids cutting short
+          cl.style.visibility = "visible";
+          cl.style.display = "none";
         }
         return false;
-    };
+      };
 
-    function download(content, mimeType, filename) {
+      function download(content, mimeType, filename) {
         const a = document.createElement('a') // Create "a" element
         const u = URL.createObjectURL(new Blob([content], {type: mimeType})) // Create an object URL
         a.setAttribute('href', u) // Set "a" element link
         a.setAttribute('download', filename) // Set download filename
         a.click() // Start downloading
-    }
+      }
 
 
-    function downloader(el) {
+      function downloader(el) {
         let f = document.getElementById("filteredcontent");
         f.innerHTML = document.getElementById("content").innerHTML;
         pruneoptional(f);
@@ -153,636 +152,634 @@
         let filename = team + "-" + asset + "-"+synopsis+ ".threat.yml";
         download(f.textContent, "application/yaml", filename);
         return false;
-    }
+      }
 
-    function pruneoptional(el) {
+      function pruneoptional(el) {
         let empties = [];
         for (let cl of el.getElementsByTagName("br")) empties.push(cl);
         for (let cl of el.getElementsByClassName("optional")) {
-//            console.log("  " + cl.innerHTML + " \n");
-            for (let ol of cl.childNodes) {
-//                if (ol.tagName == "OUTPUT")  { console.log("  '" + ol.innerHTML.trim() + "'   "  + ol.innerHTML.trim().length  +   "\n"); }
-                if (ol.tagName == "OUTPUT" && ol.innerHTML.trim().length == 0) {
-//                    console.log("  " + cl.outerHTML + "  -- REMOVED \n");
-//                    cl.remove();
-                    empties.push(cl);
-                }
+          //            console.log("  " + cl.innerHTML + " \n");
+          for (let ol of cl.childNodes) {
+            //                if (ol.tagName == "OUTPUT")  { console.log("  '" + ol.innerHTML.trim() + "'   "  + ol.innerHTML.trim().length  +   "\n"); }
+            if (ol.tagName == "OUTPUT" && ol.innerHTML.trim().length == 0) {
+              //                    console.log("  " + cl.outerHTML + "  -- REMOVED \n");
+              //                    cl.remove();
+              empties.push(cl);
             }
+          }
         }
         // must purge elements so .sectioncontent can be squashed
         for (let cl of empties) cl.remove();
         empties = [];
         for (let cl of el.getElementsByClassName("sectioncontent")) {
-            if (cl.getElementsByTagName("output").length == 0) empties.push(cl);
-//            cl.innerHTML = cl.innerHTML.replace(/^\s*$(?:\r\n?|\n)/gm, ""); /* FIXME: doesn't work at all... wanna remove (trailing) empty lines */
+          if (cl.getElementsByTagName("output").length == 0) empties.push(cl);
+          //            cl.innerHTML = cl.innerHTML.replace(/^\s*$(?:\r\n?|\n)/gm, ""); /* FIXME: doesn't work at all... wanna remove (trailing) empty lines */
         }
         for (let cl of empties) cl.remove();
         el.innerHTML = el.innerHTML.replace(/^\s*$(?:\r\n?|\n)/gm, ""); /* FIXME: doesn't work well... wanna remove (trailing) empty lines - but not outside .sectioncontent */
-    }
+      }
 
-    function toggle(el) {
+      function toggle(el) {
         let cl = el.nextElementSibling;
         if (cl.classList.contains("open")) {
-            cl.classList.remove("open");
-            el.classList.remove("open");
+          cl.classList.remove("open");
+          el.classList.remove("open");
         } else {
-            cl.classList.add("open");
-            el.classList.add("open");
+          cl.classList.add("open");
+          el.classList.add("open");
         }
         return false;
-    }
+      }
 
-    function fliptheme(el) {
+      function fliptheme(el) {
         let hl = document.getElementsByTagName("html")[0];
         let cl = el.nextElementSibling;
         if (cl.classList.contains("light")) {
-            cl.classList.remove("light");
-            el.classList.remove("light");
-            hl.classList.remove("light");
+          cl.classList.remove("light");
+          el.classList.remove("light");
+          hl.classList.remove("light");
         } else {
-            cl.classList.add("light");
-            el.classList.add("light");
-            hl.classList.add("light");
+          cl.classList.add("light");
+          el.classList.add("light");
+          hl.classList.add("light");
         }
         return false;
-    }
+      }
 
-</script>
+    </script>
 
-<form onsubmit="return downloader(this);">
-<div id="wrap">
-    <div id="schema">
-        <div id="template">
+    <form onsubmit="return downloader(this);">
+      <div id="wrap">
+        <div id="schema">
+          <div id="template">
             <span>Quick template</span>
             <label><input value="threat" name="template" type="radio" checked/>threat</label>
             <label><input value="anomaly" name="template" type="radio"/>anomaly (avvik); non-conformance</label>
-        </div #template>
+          </div #template>
 
-        <div id="team">
+          <div id="team">
             <select name="team"  required>
-                <option value="team-fdk">team-fdk</option>
-                <option value="team-platform">team-platform</option>
-                <option value="team-authorization">team-authorization</option>
-                <option value="team-apps">team-apps</option>
-                <option value="team-studio">team-studio</option>
-                <option value="team-security">team-security</option>
-                <option value="other">other</option>
+              <option value="team-fdk">team-fdk</option>
+              <option value="team-platform">team-platform</option>
+              <option value="team-authorization">team-authorization</option>
+              <option value="team-apps">team-apps</option>
+              <option value="team-studio">team-studio</option>
+              <option value="team-security">team-security</option>
+              <option value="other">other</option>
             </select>
-        </div #team>
+          </div #team>
 
-        <br/><br/>
+          <br/><br/>
+
+          <input id="registrationDate" type="date">
 
 
-        <div class="field" id="synopsis">
+          <div class="field" id="synopsis">
             <div class="brief">Synopsis</div .brief>
             <div class="desc">Synopsis of limitations, boundaries or scenario summary.</div .desc>
             <input name="synopsis" type="text" placeholder="one-liner beskrivelse..." class="long" oninput="change(this);" required/>
             <div class="under">system for server-side generering av PDF med kjøring av React-app i Chromium innenfor Tjenesteeiers AKS-cluster</div .under>
-        </div .field>
+          </div .field>
 
-        <div class="field" id="link">
-            <div class="brief">link</div .brief>
+          <div class="field" id="link">
+            <div class="brief">Issue link</div .brief>
             <div class="desc">URI to origin issue providing scenario definition.</div .desc>
             <input name="link" type="url" placeholder="https://..." pattern="^(https:\/\/)+[\w\-\._~:\/?#[\]@!\$&'\(\)\*\+,;=.]+$" oninput="change(this);" required/>
             <div class="under"></div .under>
-        </div .field>
+          </div .field>
 
-        <div class="field" id="model">
+          <div class="field" id="model">
             <div class="brief">model</div .brief>
             <div class="desc">URI to sketch, story, markdown providing the evaluation of threats and a common understanding of the scenario.</div .desc>
             <input name="model" type="url" placeholder="https://..." pattern="^(https:\/\/)+[\w\-\._~:\/?#[\]@!\$&'\(\)\*\+,;=.]+$" oninput="change(this);" required/>
             <div class="under"></div .under>
-        </div .field>
+          </div .field>
 
-        <div class="field" id="asset">
+          <div class="field" id="asset">
             <div class="brief">asset</div .brief>
             <div class="desc">A single value that can be compromised.</div .desc>
             <input name="asset" type="text" placeholder="verdi som man vil beskytte" oninput="change(this);" required/>
             <div class="under"></div .under>
-        </div .field>
+          </div .field>
 
-        <div class="field" id="assetValue">
-            <div class="brief">assetValue</div .brief>
+          <div class="field" id="assetValue">
+            <div class="brief">Asset value</div .brief>
             <div class="desc">The evaluated criticality of the asset to the: technical parts, context of the domain or enterprise as a whole.</div .desc>
             <select name="assetValue" onchange="change(this);" required>
-                <option value="temporary" selected>temporary</option>
-                <option value="desirable">desirable</option>
-                <option value="needed">needed</option>
-                <option value="integral">integral</option>
-                <option value="vital">vital</option>
-                <option value="society">society</option>
+              <option value="temporary" selected>temporary</option>
+              <option value="desirable">desirable</option>
+              <option value="needed">needed</option>
+              <option value="integral">integral</option>
+              <option value="vital">vital</option>
+              <option value="society">society</option>
             </select>
             <div class="under"></div .under>
-        </div .field>
+          </div .field>
 
-        <div class="field array" id="parts">
+          <div class="field array" id="parts">
             <div class="brief">parts</div .brief>
             <div class="desc">Systems or components that have weakness, and/or contain the asset pertaining to the threat herein.</div .desc>
             <!-- input name="parts" type="text" placeholder=" - ..." oninput="change(this);" required/ -->
             <textarea name="parts" type="text" placeholder=" - ... &#x0a; - ..." oninput="change(this);" required></textarea>
             <div class="textclone"></div> <!-- textclone-div must be immediate sibling following textarea -->
             <div class="under">Postgresql<br/>nginx<br/>database<br/>API firewall</div .under>
-        </div .field>
+          </div .field>
 
-        <div class="field" id="domain">
+          <div class="field" id="domain">
             <div class="brief">domain</div .brief>
             <div class="desc">Area of ownership or accountability - to asset and parts - specific Product, Team, Department, Role.</div .desc>
             <input name="domain" type="text" placeholder="..." oninput="change(this);" required/>
             <div class="under"></div .under>
-        </div .field>
+          </div .field>
 
-        <div class="field" id="threat">
+          <div class="field" id="threat">
             <div class="brief">threat</div .brief>
             <div class="desc">STRIDE threat methodology with TRIM extension from F-Secure. <a data-tip="lenke til Github F-secure STRIDE-TRIM" href="https://github.com/F-Secure/elevation-of-privacy">➦</a></div .desc>
             <select name="threat" onchange="change(this);" required>
-                <option value="spoofing">spoofing</option>
-                <option value="tampering">tampering</option>
-                <option value="repudiation">repudiation</option>
-                <option value="information disclosure">information disclosure</option>
-                <option value="denial of service">denial of service</option>
-                <option value="elevation of privilege" selected>elevation of privilege</option>
-                <option value="transport of PII across boundary">transport of PII across boundary</option>
-                <option value="retention and removal of PII">retention and removal of PII</option>
-                <option value="inference of PII">inference of PII</option>
-                <option value="minimisation of PII and use">minimisation of PII and use</option>
+              <option value="spoofing">spoofing</option>
+              <option value="tampering">tampering</option>
+              <option value="repudiation">repudiation</option>
+              <option value="information disclosure">information disclosure</option>
+              <option value="denial of service">denial of service</option>
+              <option value="elevation of privilege" selected>elevation of privilege</option>
+              <option value="transport of PII across boundary">transport of PII across boundary</option>
+              <option value="retention and removal of PII">retention and removal of PII</option>
+              <option value="inference of PII">inference of PII</option>
+              <option value="minimisation of PII and use">minimisation of PII and use</option>
             </select>
             <div class="under">TRIM privacy extensions - Transport of personal data across geopolitical or contractual boundaries ** Retention and Removal of personal data ** Inference of personal data from other personal data, for example, through correlation ** Minimisation of personal data and its use.</div .under>
-        </div .field>
+          </div .field>
 
-        <div class="field" id="threatInfo">
+          <div class="field" id="threatInfo">
             <div class="brief">threatInfo</div .brief>
             <div class="desc">A short description on how this threat is possible and relevant.</div .desc>
             <textarea name="threatInfo" type="text" placeholder="beskrivelse..." oninput="change(this);" required></textarea>
             <div class="textclone"></div> <!-- textclone-div must be immediate sibling following textarea -->
             <div class="under">Når PDF genereres så kjøres samme React-applikasjon på serverside som hos brukerens nettleser,
-                og sesjonsnøkkelen er den samme begge steder for tilgang til data i skjema,
-                men hvis en ondsinnet aktør injiserer en svakhet i skjema så kan de få tak i andre sin session token.
-                Fordi React-applikasjonene kjøres i en kø på samme chromium-instans uten at denne stenges ned mellom hver kjøring
-                så kan noen hente ut session token i skjema.</div .under>
-        </div .field>
+              og sesjonsnøkkelen er den samme begge steder for tilgang til data i skjema,
+              men hvis en ondsinnet aktør injiserer en svakhet i skjema så kan de få tak i andre sin session token.
+              Fordi React-applikasjonene kjøres i en kø på samme chromium-instans uten at denne stenges ned mellom hver kjøring
+              så kan noen hente ut session token i skjema.</div .under>
+          </div .field>
 
-        <div class="field" id="threatFix">
+          <div class="field" id="threatFix">
             <div class="brief">threatFix</div .brief>
             <div class="desc">Direction, or area of remediation, for handling the threat.</div .desc>
             <input name="threatFix" type="text" placeholder="..." oninput="change(this);" required/>
             <div class="under">encryption of data at rest; hardening of host; scrubbing of PII from logs; ...</div .under>
-        </div .field>
+          </div .field>
 
-        <div class="field" id="threatRating">
+          <div class="field" id="threatRating">
             <div class="brief">threatRating</div .brief>
             <div class="desc">The team evaluates the importance of this threat as follows.</div .desc>
             <select name="threatRating" onchange="change(this);" required>
-                <option value="void">temporary</option>
-                <option value="low">low</option>
-                <option value="medium">medium</option>
-                <option value="high" selected>high</option>
-                <option value="top">top</option>
+              <option value="void">temporary</option>
+              <option value="low">low</option>
+              <option value="medium">medium</option>
+              <option value="high" selected>high</option>
+              <option value="top">top</option>
             </select>
             <div class="under">What has the team set as the level of importance for management to process and get to a risk decision in line with the enterprise risk appetite on this threat</div .under>
-        </div .field>
+          </div .field>
 
-        <div class="section" onclick="return toggle(this);">Risk details...</div .section>
-        <div class="collapse">
+          <div class="section" onclick="return toggle(this);">Risk details...</div .section>
+          <div class="collapse">
             <div class="field" id="risk">
-                <div class="brief">risk</div .brief>
-                <div class="desc">Decided risk treatment.</div .desc>
-                <select name="risk" onchange="change(this);">
-                    <option value="keep">keep</option>
-                    <option value="transfer">transfer</option>
-                    <option value="mitigate" selected>mitigate</option>
-                    <option value="escalate">escalate</option>
-                    <option value="avoid">avoid</option>
-                </select>
-                <div class="under"></div .under>
+              <div class="brief">risk</div .brief>
+              <div class="desc">Decided risk treatment.</div .desc>
+              <select name="risk" onchange="change(this);">
+                <option value="keep">keep</option>
+                <option value="transfer">transfer</option>
+                <option value="mitigate" selected>mitigate</option>
+                <option value="escalate">escalate</option>
+                <option value="avoid">avoid</option>
+              </select>
+              <div class="under"></div .under>
             </div .field>
 
             <div class="field" id="riskDecider">
-                <div class="brief">riskDecider</div .brief>
-                <div class="desc">Who gave the final decision of risk treatment above.</div .desc>
-                <input name="riskDecider" type="email" placeholder="first.last@digdir.no" oninput="change(this);"/>
-                <div class="under">email name of the decider of risk treatment for final state providing full disclosure and traceability</div .under>
+              <div class="brief">riskDecider</div .brief>
+              <div class="desc">Who gave the final decision of risk treatment above.</div .desc>
+              <input name="riskDecider" type="email" placeholder="first.last@digdir.no" oninput="change(this);"/>
+              <div class="under">email name of the decider of risk treatment for final state providing full disclosure and traceability</div .under>
             </div .field>
 
             <div class="field" id="riskGoal">
-                <div class="brief">riskGoal</div .brief>
-                <div class="desc">Desired risk treatment category.</div .desc>
-                <select name="riskGoal" onchange="change(this);">
-                    <option value="deter">deter</option>
-                    <option value="prevent" selected>prevent</option>
-                    <option value="contain">contain</option>
-                    <option value="detect">detect</option>
-                    <option value="track">track</option>
-                    <option value="recover">recover</option>
-                    <option value="assure">assure</option>
-                </select>
-                <div class="under">a mashup from SABSA and ISO 27005</div .under>
+              <div class="brief">riskGoal</div .brief>
+              <div class="desc">Desired risk treatment category.</div .desc>
+              <select name="riskGoal" onchange="change(this);">
+                <option value="deter">deter</option>
+                <option value="prevent" selected>prevent</option>
+                <option value="contain">contain</option>
+                <option value="detect">detect</option>
+                <option value="track">track</option>
+                <option value="recover">recover</option>
+                <option value="assure">assure</option>
+              </select>
+              <div class="under">a mashup from SABSA and ISO 27005</div .under>
             </div .field>
 
             <div class="field" id="riskOwner">
-                <div class="brief">riskOwner</div .brief>
-                <div class="desc">identity or name of - Person, Department, Organisation, Role, Team, Level, Partner, Supplier, Client, User, Political, Administration, Manager.</div .desc>
-                    <input name="riskOwner" type="text" placeholder="verdi som man vil beskytte" oninput="change(this);"/>
-                <div class="under">(tbd); first.last@domain.tld; product manager; team infrastructure; security governance department</div .under>
+              <div class="brief">riskOwner</div .brief>
+              <div class="desc">identity or name of - Person, Department, Organisation, Role, Team, Level, Partner, Supplier, Client, User, Political, Administration, Manager.</div .desc>
+              <input name="riskOwner" type="text" placeholder="verdi som man vil beskytte" oninput="change(this);"/>
+              <div class="under">(tbd); first.last@domain.tld; product manager; team infrastructure; security governance department</div .under>
             </div .field>
-        </div .collapse>
-
-        <div class="section" onclick="return toggle(this);">Additions...</div .section>
-        <div class="collapse">
-
-            <div class="field" id="state">
-                <div class="brief">state</div .brief>
-                <div class="desc">Lifecycle of this threat.</div .desc>
-                <select name="state" onchange="change(this);" required>
-                    <option value="begin" selected>begin</option>
-                    <option value="clarify">clarify</option>
-                    <option value="defer">defer</option>
-                    <option value="escalate">escalate</option>
-                    <option value="final">final</option>
-                </select>
-                <div class="under">What is the current phase in the lifecycle for this file.</div .under>
-            </div .field>
-
-            <div class="field array" id="expertise">
-                <div class="brief">expertise</div .brief>
-                <div class="desc">Someone who needs to add more context before proceeding.</div .desc>
-                <!-- input name="expertise" type="text" placeholder=" - ..." oninput="change(this);"/ -->
-                <textarea name="expertise" type="text" placeholder=" - ... &#x0a; - ..." oninput="change(this);"></textarea>
-                <div class="textclone"></div> <!-- textclone-div must be immediate sibling following textarea -->
-                <div class="under">Github usernames - for quick notifications on auto-generated issues based on TM</div .under>
-            </div .field>
-
-            <div class="field" id="note">
-                <div class="brief">note</div .brief>
-                <div class="desc">Current workflow or some additional context to handling this threat.</div .desc>
-                <textarea name="note" type="text" placeholder="beskrivelse..." oninput="change(this);"></textarea>
-                <div class="textclone"></div> <!-- textclone-div must be immediate sibling following textarea -->
-                <div class="under">any additional information</div .under>
-            </div .field>
-
-            <div class="field" id="flags">
-                <div class="brief">flags</div .brief>
-                <div class="desc">Customizable flags for automation, flexibility and extensibility.</div .desc>
-                <input name="flags" type="text" placeholder=" - ..." oninput="change(this);"/>
-                <div class="under">defer; test-case; ...</div .under>
-            </div .field>
-
-        </div .collapse>
-
-        <div class="section" onclick="return toggle(this);">Linked contexts...</div .section>
-        <div class="collapse">
-
-            <div class="field array" id="historic">
-                <div class="brief">historic</div .brief>
-                <div class="desc">Systems or components that have weakness, and/or contain the asset pertaining to the threat herein.</div .desc>
-                <!-- input name="historic" type="url" placeholder="https://..." pattern="^(https:\/\/)+[\w\-\._~:\/?#[\]@!\$&'\(\)\*\+,;=.]+$" oninput="change(this);"/ -->
-                <textarea name="historic" type="text" placeholder=" - https://... &#x0a; - https://..." oninput="change(this);"></textarea>
-                <div class="textclone"></div> <!-- textclone-div must be immediate sibling following textarea -->
-                <div class="under"></div .under>
-            </div .field>
-    
-            <div class="field array" id="infer">
-                <div class="brief">infer</div .brief>
-                <div class="desc">Systems or components that have weakness, and/or contain the asset pertaining to the threat herein.</div .desc>
-                <!-- input name="infer" type="url" placeholder="https://..." pattern="^(https:\/\/)+[\w\-\._~:\/?#[\]@!\$&'\(\)\*\+,;=.]+$" oninput="change(this);"/ -->
-                <textarea name="infer" type="text" placeholder=" - https://... &#x0a; - https://..." oninput="change(this);"></textarea>
-                <div class="textclone"></div> <!-- textclone-div must be immediate sibling following textarea -->
-                <div class="under"></div .under>
-            </div .field>
-    
-            <div class="field array" id="basis">
-                <div class="brief">basis</div .brief>
-                <div class="desc">Systems or components that have weakness, and/or contain the asset pertaining to the threat herein.</div .desc>
-                <!-- input name="basis" type="url" placeholder="https://..." pattern="^(https:\/\/)+[\w\-\._~:\/?#[\]@!\$&'\(\)\*\+,;=.]+$" oninput="change(this);"/ -->
-                <textarea name="basis" type="text" placeholder=" - https://... &#x0a; - https://..." oninput="change(this);"></textarea>
-                <div class="textclone"></div> <!-- textclone-div must be immediate sibling following textarea -->
-                <div class="under"></div .under>
-            </div .field>
-    
-            <div class="field array" id="check">
-                <div class="brief">check</div .brief>
-                <div class="desc">Systems or components that have weakness, and/or contain the asset pertaining to the threat herein.</div .desc>
-                <!-- input name="check" type="url" placeholder="https://..." pattern="^(https:\/\/)+[\w\-\._~:\/?#[\]@!\$&'\(\)\*\+,;=.]+$" oninput="change(this);"/ -->
-                <textarea name="check" type="text" placeholder=" - https://... &#x0a; - https://..." oninput="change(this);"></textarea>
-                <div class="textclone"></div> <!-- textclone-div must be immediate sibling following textarea -->
-                <div class="under"></div .under>
-            </div .field>
-    
-            <div class="field array" id="validity">
-                <div class="brief">validity</div .brief>
-                <div class="desc">Systems or components that have weakness, and/or contain the asset pertaining to the threat herein.</div .desc>
-                <!-- input name="validity" type="url" placeholder="https://..." pattern="^(https:\/\/)+[\w\-\._~:\/?#[\]@!\$&'\(\)\*\+,;=.]+$" oninput="change(this);"/ -->
-                <textarea name="validity" type="text" placeholder=" - https://... &#x0a; - https://..." oninput="change(this);"></textarea>
-                <div class="textclone"></div> <!-- textclone-div must be immediate sibling following textarea -->
-                <div class="under"></div .under>
-            </div .field>
-    
-        </div .collapse>
-
-        <div class="section" onclick="return toggle(this);">Security team threat and risk details; anomaly...</div .section>
-        <div class="collapse">
-
-            <div class="field" id="threatActor">
-                <div class="brief">threatActor</div .brief>
-                <div class="desc">What is the origin of the threat.</div .desc>
-                <select name="threatActor" onchange="change(this);">
-                    <option value="state">state</option>
-                    <option value="criminal">criminal</option>
-                    <option value="terrorist">terrorist</option>
-                    <option value="activist">activist</option>
-                    <option value="specialist">specialist</option>
-                    <option value="amateur">amateur</option>
-                    <option value="avenger">avenger</option>
-                    <option value="opportunist" selected>opportunist</option>
-                    <option value="other">other</option>
-                    <option value="anomaly">anomaly</option>
-                    <option value="design">design</option>
-                    <option value="awareness">awareness</option>
-                    <option value="negligence">negligence</option>
-                    <option value="environment">environment</option>
-                    <option value="failure">failure</option>
-                    <option value="complication">complication</option>
-                    <option value="audit">audit</option>
-                </select>
-                <div class="under">ISO 27005:2022 categories of threat actors and common sources of unintended consequences</div .under>
-            </div .field>
-
-            <div class="field" id="threatClass">
-                <div class="brief">threatClass</div .brief>
-                <div class="desc">What classification/capability is impacted by the threat or what kind of consequence can be expected to exert a negative outcome.</div .desc>
-                <select name="threatClass" onchange="change(this);">
-                    <option value="" selected></option>
-                    <option value="organisation">organisation</option>
-                    <option value="personnel">personnel</option>
-                    <option value="physical">physical</option>
-                    <option value="technical">technical</option>
-                    <option value="privacy">privacy</option>
-                    <option value="site">site</option>
-                    <option value="network">network</option>
-                    <option value="perimeter">perimeter</option>
-                    <option value="system">system</option>
-                    <option value="configuration">configuration</option>
-                    <option value="logging">logging</option>
-                    <option value="monitoring">monitoring</option>
-                    <option value="dependency">dependency</option>
-                    <option value="contractual">contractual</option>
-                    <option value="resources">resources</option>
-                    <option value="time">time</option>
-                    <option value="resilience">resilience</option>
-                    <option value="response">response</option>
-                    <option value="political">political</option>
-                    <option value="economic">economic</option>
-                    <option value="social">social</option>
-                    <option value="legal">legal</option>
-                    <option value="ethical">ethical</option>
-                    <option value="demographic">demographic</option>
-                    <option value="operational">operational</option>
-                    <option value="scaling">scaling</option>
-                    <option value="environmental">environmental</option>
-                    <option value="culture">culture</option>
-                    <option value="manipulation">manipulation</option>
-                    <option value="breach">breach</option>
-                    <option value="leak">leak</option>
-                    <option value="oversight">oversight</option>
-                    <option value="randomness">randomness</option>
-                    <option value="exploit">exploit</option>
-                    <option value="fines">fines</option>
-                    <option value="interruption">interruption</option>
-                    <option value="disruption">disruption</option>
-                    <option value="theft">theft</option>
-                    <option value="fraud">fraud</option>
-                    <option value="loss">loss</option>
-                    <option value="influence">influence</option>
-                    <option value="other">other</option>
-                    <option value="unknown">unknown</option>
-                </select>
-                <div class="under"></div .under>
-            </div .field>
-
-            <div class="field" id="threatDefence">
-                <div class="brief">threatDefence</div .brief>
-                <div class="desc">Which layer will the remediation or decision apply to - cf SABSA model for defence in depth.</div .desc>
-                <select name="threatDefence" onchange="change(this);">
-                    <option value="" selected></option>
-                    <option value="governance">governance</option>
-                    <option value="operational">operational</option>
-                    <option value="physical">physical</option>
-                    <option value="hardware">hardware</option>
-                    <option value="system">system</option>
-                    <option value="application">application</option>
-                    <option value="crypto">crypto</option>
-                    <option value="information">information</option>
-                </select>
-                <div class="under"></div .under>
-            </div .field>
-
-            <div class="field" id="threatOccurence">
-                <div class="brief">threatOccurence</div .brief>
-                <div class="desc">Based on historic or evidence elsewhere.</div .desc>
-                <select name="threatOccurence" onchange="change(this);">
-                    <option value="" selected></option>
-                    <option value="unlikely">unlikely</option>
-                    <option value="rare">rare</option>
-                    <option value="likely">likely</option>
-                    <option value="frequent">frequent</option>
-                    <option value="certain">certain</option>
-                </select>
-                <div class="under"></div .under>
-            </div .field>
-
-            <div class="field" id="threatSeverity">
-                <div class="brief">threatSeverity</div .brief>
-                <div class="desc">What is the potential consequence of this threat as evaluated by the team.</div .desc>
-                <select name="threatSeverity" onchange="change(this);">
-                    <option value="" selected></option>
-                    <option value="neglible">neglible</option>
-                    <option value="minor">minor</option>
-                    <option value="significant">significant</option>
-                    <option value="major">major</option>
-                    <option value="critical">critical</option>
-                    <option value="catastrophic">catastrophic</option>
-                </select>
-                <div class="under"></div .under>
-            </div .field>
-
             <div class="field" id="riskControl">
-                <div class="brief">riskControl</div .brief>
-                <div class="desc">Security control classification confer ISO 27001 & 27002 - 2022-versions.</div .desc>
-                <select name="riskControl" onchange="change(this);">
-                    <option value="" selected></option>
-                    <option value="organisation">organisation</option>
-                    <option value="people">people</option>
-                    <option value="physical">physical</option>
-                    <option value="technical">technical</option>
-                </select>
-                <div class="under"></div .under>
+              <div class="brief">riskControl</div .brief>
+              <div class="desc">Security control classification confer ISO 27001 &amp; 27002 - 2022-versions.</div .desc>
+              <select name="riskControl" onchange="change(this);">
+                <option value="" selected></option>
+                <option value="organisation">organisation</option>
+                <option value="people">people</option>
+                <option value="physical">physical</option>
+                <option value="technical">technical</option>
+              </select>
+              <div class="under"></div .under>
             </div .field>
 
             <div class="field" id="riskType">
-                <div class="brief">riskType</div .brief>
-                <div class="desc">Which risk is directly affected by the threat herein and is owned somewhere in the enterprise.</div .desc>
-                <select name="riskType" onchange="change(this);">
-                    <option value="" selected></option>
-                    <option value="reputation">reputation</option>
-                    <option value="credibility">credibility</option>
-                    <option value="strategic">strategic</option>
-                    <option value="health">health</option>
-                    <option value="safety">safety</option>
-                    <option value="information">information</option>
-                    <option value="governance">governance</option>
-                    <option value="resilience">resilience</option>
-                    <option value="preparedness">preparedness</option>
-                    <option value="recovery">recovery</option>
-                    <option value="sustainability">sustainability</option>
-                    <option value="ecological">ecological</option>
-                    <option value="operational">operational</option>
-                    <option value="effectiveness">effectiveness</option>
-                    <option value="respect">respect</option>
-                    <option value="processing">processing</option>
-                    <option value="behaviour">behaviour</option>
-                    <option value="project">project</option>
-                    <option value="criminal">criminal</option>
-                    <option value="hr">hr</option>
-                    <option value="supply">supply</option>
-                    <option value="ethics">ethics</option>
-                    <option value="climate">climate</option>
-                    <option value="political">political</option>
-                    <option value="cultural">cultural</option>
-                    <option value="compliance">compliance</option>
-                    <option value="management">management</option>
-                    <option value="performance">performance</option>
-                    <option value="communication">communication</option>
-                    <option value="finance">finance</option>
-                    <option value="traceability">traceability</option>
-                    <option value="responsive">responsive</option>
-                    <option value="trust">trust</option>
-                    <option value="authority">authority</option>
-                    <option value="control">control</option>
-                    <option value="confidentiality">confidentiality</option>
-                    <option value="integrity">integrity</option>
-                    <option value="availability">availability</option>
-                    <option value="engagement">engagement</option>
-                    <option value="motivation">motivation</option>
-                    <option value="transparency">transparency</option>
-                    <option value="accuracy">accuracy</option>
-                    <option value="assurance">assurance</option>
-                    <option value="identity">identity</option>
-                    <option value="access">access</option>
-                    <option value="services">services</option>
-                    <option value="usability">usability</option>
-                    <option value="current">current</option>
-                    <option value="authenticity">authenticity</option>
-                    <option value="support">support</option>
-                    <option value="relevance">relevance</option>
-                    <option value="cost">cost</option>
-                    <option value="consistent">consistent</option>
-                    <option value="interoperability">interoperability</option>
-                    <option value="flexibility">flexibility</option>
-                    <option value="extendibility">extendibility</option>
-                    <option value="maintainable">maintainable</option>
-                    <option value="reliability">reliability</option>
-                    <option value="standard">standard</option>
-                    <option value="beneficial">beneficial</option>
-                    <option value="reproducible">reproducible</option>
-                    <option value="updated">updated</option>
-                    <option value="accountability">accountability</option>
-                    <option value="leadership">leadership</option>
-                    <option value="provider">provider</option>
-                    <option value="comparability">comparability</option>
-                    <option value="clarity">clarity</option>
-                    <option value="partnership">partnership</option>
-                    <option value="predictability">predictability</option>
-                </select>
-                <div class="under"></div .under>
+              <div class="brief">riskType</div .brief>
+              <div class="desc">Which risk is directly affected by the threat herein and is owned somewhere in the enterprise.</div .desc>
+              <select name="riskType" onchange="change(this);">
+                <option value="" selected></option>
+                <option value="reputation">reputation</option>
+                <option value="credibility">credibility</option>
+                <option value="strategic">strategic</option>
+                <option value="health">health</option>
+                <option value="safety">safety</option>
+                <option value="information">information</option>
+                <option value="governance">governance</option>
+                <option value="resilience">resilience</option>
+                <option value="preparedness">preparedness</option>
+                <option value="recovery">recovery</option>
+                <option value="sustainability">sustainability</option>
+                <option value="ecological">ecological</option>
+                <option value="operational">operational</option>
+                <option value="effectiveness">effectiveness</option>
+                <option value="respect">respect</option>
+                <option value="processing">processing</option>
+                <option value="behaviour">behaviour</option>
+                <option value="project">project</option>
+                <option value="criminal">criminal</option>
+                <option value="hr">hr</option>
+                <option value="supply">supply</option>
+                <option value="ethics">ethics</option>
+                <option value="climate">climate</option>
+                <option value="political">political</option>
+                <option value="cultural">cultural</option>
+                <option value="compliance">compliance</option>
+                <option value="management">management</option>
+                <option value="performance">performance</option>
+                <option value="communication">communication</option>
+                <option value="finance">finance</option>
+                <option value="traceability">traceability</option>
+                <option value="responsive">responsive</option>
+                <option value="trust">trust</option>
+                <option value="authority">authority</option>
+                <option value="control">control</option>
+                <option value="confidentiality">confidentiality</option>
+                <option value="integrity">integrity</option>
+                <option value="availability">availability</option>
+                <option value="engagement">engagement</option>
+                <option value="motivation">motivation</option>
+                <option value="transparency">transparency</option>
+                <option value="accuracy">accuracy</option>
+                <option value="assurance">assurance</option>
+                <option value="identity">identity</option>
+                <option value="access">access</option>
+                <option value="services">services</option>
+                <option value="usability">usability</option>
+                <option value="current">current</option>
+                <option value="authenticity">authenticity</option>
+                <option value="support">support</option>
+                <option value="relevance">relevance</option>
+                <option value="cost">cost</option>
+                <option value="consistent">consistent</option>
+                <option value="interoperability">interoperability</option>
+                <option value="flexibility">flexibility</option>
+                <option value="extendibility">extendibility</option>
+                <option value="maintainable">maintainable</option>
+                <option value="reliability">reliability</option>
+                <option value="standard">standard</option>
+                <option value="beneficial">beneficial</option>
+                <option value="reproducible">reproducible</option>
+                <option value="updated">updated</option>
+                <option value="accountability">accountability</option>
+                <option value="leadership">leadership</option>
+                <option value="provider">provider</option>
+                <option value="comparability">comparability</option>
+                <option value="clarity">clarity</option>
+                <option value="partnership">partnership</option>
+                <option value="predictability">predictability</option>
+              </select>
+              <div class="under"></div .under>
+            </div .field>
+          </div .collapse>
+
+          <div class="section" onclick="return toggle(this);">Additions...</div .section>
+          <div class="collapse">
+
+            <div class="field" id="state">
+              <div class="brief">state</div .brief>
+              <div class="desc">Lifecycle of this threat.</div .desc>
+              <select name="state" onchange="change(this);" required>
+                <option value="begin" selected>begin</option>
+                <option value="clarify">clarify</option>
+                <option value="defer">defer</option>
+                <option value="escalate">escalate</option>
+                <option value="final">final</option>
+              </select>
+              <div class="under">What is the current phase in the lifecycle for this file.</div .under>
             </div .field>
 
-        </div .collapse>
-        
-            
-        <p data-tip="download YAML-file"><input type="submit" value="Download"/></p>
-    </div>
+            <div class="field array" id="expertise">
+              <div class="brief">expertise</div .brief>
+              <div class="desc">Someone who needs to add more context before proceeding.</div .desc>
+              <!-- input name="expertise" type="text" placeholder=" - ..." oninput="change(this);"/ -->
+              <textarea name="expertise" type="text" placeholder=" - ... &#x0a; - ..." oninput="change(this);"></textarea>
+              <div class="textclone"></div> <!-- textclone-div must be immediate sibling following textarea -->
+              <div class="under">Github usernames - for quick notifications on auto-generated issues based on TM</div .under>
+            </div .field>
 
-<div id="right">
-<div class="theme" onclick="return fliptheme(this);" style="z-index: 200;" data-tip="switch between dark and light theme">&#x25d0;</div><div class="theme lower" style="z-index: 150;">&#x25CB;</div>
-<div class="right" data-tip="download YAML-file"><input type="submit" value="Download"/></div>
-<!-- NO INDENTING BELOW - the following content must not use whitespace indenting since that would give indents in the YAML file generated -->
-<div id="content"># yaml-language-server: $schema:tm-some.json<br/>
-<br/>
-# scenario definitions and scoping<br/>
-link: <output id="o_link"></output><br/>
-linkScope: |<br/>
-  <output id="o_linkScope"></output><br/>
-model: <output id="o_model"></output><br/>
-<br/>
-# threat problem statement<br/>
-asset: <output id="o_asset"></output><br/>
-assetValue: <output id="o_assetValue"></output><br/>
-parts:<br/><!-- ARRAY OUTPUTS MUST BE ALIGNED FLUSH RIGHT -->
-<output id="o_parts" class="array"></output>
-domain: <output id="o_domain"></output><br/>
-<br/>
-threat: <output id="o_threat"></output><br/>
-threatInfo: |<br/>
-  <output id="o_threatInfo"></output><br/>
-threatFix: <output id="o_threatFix"></output><br/>
-threatRating: <output id="o_threatRating"></output><br/>
-<br/>
-<div class="sectioncontent optional"><span># risk details</span><br/>
-<span class="optional">risk: <output id="o_risk"></output></span><br/>
-<span class="optional">riskDecider: <output id="o_riskDecider"></output></span><br/>
-<span class="optional">riskGoal: <output id="o_riskGoal"></output></span><br/>
-<span class="optional">riskOwner: <output id="o_riskOwner"></output></span><br/>
-<br/></div .sectioncontent>
-<div class="sectioncontent required"><span># additions</span><br/>
-state: <output id="o_state"></output><br/>
-<span class="optional">expertise:<br/><!-- ARRAY OUTPUTS MUST BE ALIGNED FLUSH RIGHT -->
-<output id="o_expertise" class="array"></output></span>
-<span class="optional">note: |<br/>
-  <output id="o_note"></output></span><br/>
-<span class="optional">flags:<br/><!-- ARRAY OUTPUTS MUST BE ALIGNED FLUSH RIGHT -->
-<output id="o_flags" class="array"></output></span>
-<br/></div .section>
-<div class="sectioncontent optional"><span># linked contexts</span><br/>
-<span class="optional">historic:<br/><!-- ARRAY OUTPUTS MUST BE ALIGNED FLUSH RIGHT -->
-<output id="o_historic" class="array"></output></span>
-<span class="optional">infer:<br/><!-- ARRAY OUTPUTS MUST BE ALIGNED FLUSH RIGHT -->
-<output id="o_infer" class="array"></output></span>
-<span class="optional">basis:<br/><!-- ARRAY OUTPUTS MUST BE ALIGNED FLUSH RIGHT -->
-<output id="o_basis" class="array"></output></span>
-<span class="optional">check:<br/><!-- ARRAY OUTPUTS MUST BE ALIGNED FLUSH RIGHT -->
-<output id="o_check" class="array"></output></span>
-<span class="optional">validity:<br/><!-- ARRAY OUTPUTS MUST BE ALIGNED FLUSH RIGHT -->
-<output id="o_validity" class="array"></output></span>
-<br/></div .sectioncontent>
-<div class="sectioncontent optional"><span># non-conformant anomaly; or security team threat and risk details</span><br/>
-<span class="optional">threatActor: <output id="o_threatActor"></output></span><br/>
-<span class="optional">threatClass: <output id="o_threatClass"></output></span><br/>
-<span class="optional">threatDefence: <output id="o_threatDefence"></output></span><br/>
-<span class="optional">threatOccurence: <output id="o_threatOccurence"></output></span><br/>
-<span class="optional">threatSeverity: <output id="o_threatSeverity"></output></span><br/>
-<br/>
-<span class="optional">riskControl: <output id="o_riskControl"></output></span><br/>
-<span class="optional">riskType: <output id="o_riskType"></output></span><br/></div .section>
-</div #contentcontent>
-<div class="right" data-tip="download YAML-file"><input type="submit" value="Download"/></div>
+            <div class="field" id="note">
+              <div class="brief">note</div .brief>
+              <div class="desc">Current workflow or some additional context to handling this threat.</div .desc>
+              <textarea name="note" type="text" placeholder="beskrivelse..." oninput="change(this);"></textarea>
+              <div class="textclone"></div> <!-- textclone-div must be immediate sibling following textarea -->
+              <div class="under">any additional information</div .under>
+            </div .field>
 
-</div #right>
-</div #wrap>
-<div id="filteredcontent"></div #filteredcontent>
-</form>
-    
-<script>
-    for (let el of document.getElementsByTagName("select")) {
+            <div class="field" id="flags">
+              <div class="brief">flags</div .brief>
+              <div class="desc">Customizable flags for automation, flexibility and extensibility.</div .desc>
+              <input name="flags" type="text" placeholder=" - ..." oninput="change(this);"/>
+              <div class="under">defer; test-case; ...</div .under>
+            </div .field>
+
+            <div class="field" id="threatActor">
+              <div class="brief">threatActor</div .brief>
+              <div class="desc">What is the origin of the threat.</div .desc>
+              <select name="threatActor" onchange="change(this);">
+                <option value="state">state</option>
+                <option value="criminal">criminal</option>
+                <option value="terrorist">terrorist</option>
+                <option value="activist">activist</option>
+                <option value="specialist">specialist</option>
+                <option value="amateur">amateur</option>
+                <option value="avenger">avenger</option>
+                <option value="opportunist" selected>opportunist</option>
+                <option value="other">other</option>
+                <option value="anomaly">anomaly</option>
+                <option value="design">design</option>
+                <option value="awareness">awareness</option>
+                <option value="negligence">negligence</option>
+                <option value="environment">environment</option>
+                <option value="failure">failure</option>
+                <option value="complication">complication</option>
+                <option value="audit">audit</option>
+              </select>
+              <div class="under">ISO 27005:2022 categories of threat actors and common sources of unintended consequences</div .under>
+            </div .field>
+
+            <div class="field" id="threatClass">
+              <div class="brief">threatClass</div .brief>
+              <div class="desc">What classification/capability is impacted by the threat or what kind of consequence can be expected to exert a negative outcome.</div .desc>
+              <select name="threatClass" onchange="change(this);">
+                <option value="" selected></option>
+                <option value="organisation">organisation</option>
+                <option value="personnel">personnel</option>
+                <option value="physical">physical</option>
+                <option value="technical">technical</option>
+                <option value="privacy">privacy</option>
+                <option value="site">site</option>
+                <option value="network">network</option>
+                <option value="perimeter">perimeter</option>
+                <option value="system">system</option>
+                <option value="configuration">configuration</option>
+                <option value="logging">logging</option>
+                <option value="monitoring">monitoring</option>
+                <option value="dependency">dependency</option>
+                <option value="contractual">contractual</option>
+                <option value="resources">resources</option>
+                <option value="time">time</option>
+                <option value="resilience">resilience</option>
+                <option value="response">response</option>
+                <option value="political">political</option>
+                <option value="economic">economic</option>
+                <option value="social">social</option>
+                <option value="legal">legal</option>
+                <option value="ethical">ethical</option>
+                <option value="demographic">demographic</option>
+                <option value="operational">operational</option>
+                <option value="scaling">scaling</option>
+                <option value="environmental">environmental</option>
+                <option value="culture">culture</option>
+                <option value="manipulation">manipulation</option>
+                <option value="breach">breach</option>
+                <option value="leak">leak</option>
+                <option value="oversight">oversight</option>
+                <option value="randomness">randomness</option>
+                <option value="exploit">exploit</option>
+                <option value="fines">fines</option>
+                <option value="interruption">interruption</option>
+                <option value="disruption">disruption</option>
+                <option value="theft">theft</option>
+                <option value="fraud">fraud</option>
+                <option value="loss">loss</option>
+                <option value="influence">influence</option>
+                <option value="other">other</option>
+                <option value="unknown">unknown</option>
+              </select>
+              <div class="under"></div .under>
+            </div .field>
+
+            <div class="field" id="threatDefence">
+              <div class="brief">threatDefence</div .brief>
+              <div class="desc">Which layer will the remediation or decision apply to - cf SABSA model for defence in depth.</div .desc>
+              <select name="threatDefence" onchange="change(this);">
+                <option value="" selected></option>
+                <option value="governance">governance</option>
+                <option value="operational">operational</option>
+                <option value="physical">physical</option>
+                <option value="hardware">hardware</option>
+                <option value="system">system</option>
+                <option value="application">application</option>
+                <option value="crypto">crypto</option>
+                <option value="information">information</option>
+              </select>
+              <div class="under"></div .under>
+            </div .field>
+
+            <div class="field" id="threatOccurence">
+              <div class="brief">threatOccurence</div .brief>
+              <div class="desc">Based on historic or evidence elsewhere.</div .desc>
+              <select name="threatOccurence" onchange="change(this);">
+                <option value="" selected></option>
+                <option value="unlikely">unlikely</option>
+                <option value="rare">rare</option>
+                <option value="likely">likely</option>
+                <option value="frequent">frequent</option>
+                <option value="certain">certain</option>
+              </select>
+              <div class="under"></div .under>
+            </div .field>
+
+            <div class="field" id="threatSeverity">
+              <div class="brief">threatSeverity</div .brief>
+              <div class="desc">What is the potential consequence of this threat as evaluated by the team.</div .desc>
+              <select name="threatSeverity" onchange="change(this);">
+                <option value="" selected></option>
+                <option value="neglible">neglible</option>
+                <option value="minor">minor</option>
+                <option value="significant">significant</option>
+                <option value="major">major</option>
+                <option value="critical">critical</option>
+                <option value="catastrophic">catastrophic</option>
+              </select>
+              <div class="under"></div .under>
+            </div .field>
+
+          </div .collapse>
+
+          <div class="section" onclick="return toggle(this);">Linked contexts...</div .section>
+          <div class="collapse">
+
+            <div class="field array" id="historic">
+              <div class="brief">historic</div .brief>
+              <div class="desc">Systems or components that have weakness, and/or contain the asset pertaining to the threat herein.</div .desc>
+              <!-- input name="historic" type="url" placeholder="https://..." pattern="^(https:\/\/)+[\w\-\._~:\/?#[\]@!\$&'\(\)\*\+,;=.]+$" oninput="change(this);"/ -->
+              <textarea name="historic" type="text" placeholder=" - https://... &#x0a; - https://..." oninput="change(this);"></textarea>
+              <div class="textclone"></div> <!-- textclone-div must be immediate sibling following textarea -->
+              <div class="under"></div .under>
+            </div .field>
+
+            <div class="field array" id="infer">
+              <div class="brief">infer</div .brief>
+              <div class="desc">Systems or components that have weakness, and/or contain the asset pertaining to the threat herein.</div .desc>
+              <!-- input name="infer" type="url" placeholder="https://..." pattern="^(https:\/\/)+[\w\-\._~:\/?#[\]@!\$&'\(\)\*\+,;=.]+$" oninput="change(this);"/ -->
+              <textarea name="infer" type="text" placeholder=" - https://... &#x0a; - https://..." oninput="change(this);"></textarea>
+              <div class="textclone"></div> <!-- textclone-div must be immediate sibling following textarea -->
+              <div class="under"></div .under>
+            </div .field>
+
+            <div class="field array" id="basis">
+              <div class="brief">basis</div .brief>
+              <div class="desc">Systems or components that have weakness, and/or contain the asset pertaining to the threat herein.</div .desc>
+              <!-- input name="basis" type="url" placeholder="https://..." pattern="^(https:\/\/)+[\w\-\._~:\/?#[\]@!\$&'\(\)\*\+,;=.]+$" oninput="change(this);"/ -->
+              <textarea name="basis" type="text" placeholder=" - https://... &#x0a; - https://..." oninput="change(this);"></textarea>
+              <div class="textclone"></div> <!-- textclone-div must be immediate sibling following textarea -->
+              <div class="under"></div .under>
+            </div .field>
+
+            <div class="field array" id="check">
+              <div class="brief">check</div .brief>
+              <div class="desc">Systems or components that have weakness, and/or contain the asset pertaining to the threat herein.</div .desc>
+              <!-- input name="check" type="url" placeholder="https://..." pattern="^(https:\/\/)+[\w\-\._~:\/?#[\]@!\$&'\(\)\*\+,;=.]+$" oninput="change(this);"/ -->
+              <textarea name="check" type="text" placeholder=" - https://... &#x0a; - https://..." oninput="change(this);"></textarea>
+              <div class="textclone"></div> <!-- textclone-div must be immediate sibling following textarea -->
+              <div class="under"></div .under>
+            </div .field>
+
+            <div class="field array" id="validity">
+              <div class="brief">validity</div .brief>
+              <div class="desc">Systems or components that have weakness, and/or contain the asset pertaining to the threat herein.</div .desc>
+              <!-- input name="validity" type="url" placeholder="https://..." pattern="^(https:\/\/)+[\w\-\._~:\/?#[\]@!\$&'\(\)\*\+,;=.]+$" oninput="change(this);"/ -->
+              <textarea name="validity" type="text" placeholder=" - https://... &#x0a; - https://..." oninput="change(this);"></textarea>
+              <div class="textclone"></div> <!-- textclone-div must be immediate sibling following textarea -->
+              <div class="under"></div .under>
+            </div .field>
+
+          </div .collapse>
+
+          <p data-tip="download YAML-file"><input type="submit" value="Download"/></p>
+        </div>
+
+        <div id="right">
+          <div class="theme" onclick="return fliptheme(this);" style="z-index: 200;" data-tip="switch between dark and light theme">&#x25d0;</div><div class="theme lower" style="z-index: 150;">&#x25CB;</div>
+          <div class="right" data-tip="download YAML-file"><input type="submit" value="Download"/></div>
+          <!-- NO INDENTING BELOW - the following content must not use whitespace indenting since that would give indents in the YAML file generated -->
+          <div id="content"># yaml-language-server: $schema:tm-some.json<br/>
+            <br/>
+            # scenario definitions and scoping<br/>
+            link: <output id="o_link"></output><br/>
+            linkScope: |<br/>
+            <output id="o_linkScope"></output><br/>
+            model: <output id="o_model"></output><br/>
+            <br/>
+            # threat problem statement<br/>
+            asset: <output id="o_asset"></output><br/>
+            assetValue: <output id="o_assetValue"></output><br/>
+            parts:<br/><!-- ARRAY OUTPUTS MUST BE ALIGNED FLUSH RIGHT -->
+            <output id="o_parts" class="array"></output>
+            domain: <output id="o_domain"></output><br/>
+            <br/>
+            threat: <output id="o_threat"></output><br/>
+            threatInfo: |<br/>
+            <output id="o_threatInfo"></output><br/>
+            threatFix: <output id="o_threatFix"></output><br/>
+            threatRating: <output id="o_threatRating"></output><br/>
+            <br/>
+            <div class="sectioncontent optional"><span># risk details</span><br/>
+              <span class="optional">risk: <output id="o_risk"></output></span><br/>
+              <span class="optional">riskDecider: <output id="o_riskDecider"></output></span><br/>
+              <span class="optional">riskGoal: <output id="o_riskGoal"></output></span><br/>
+              <span class="optional">riskOwner: <output id="o_riskOwner"></output></span><br/>
+              <br/></div .sectioncontent>
+            <div class="sectioncontent required"><span># additions</span><br/>
+              state: <output id="o_state"></output><br/>
+              <span class="optional">expertise:<br/><!-- ARRAY OUTPUTS MUST BE ALIGNED FLUSH RIGHT -->
+                <output id="o_expertise" class="array"></output></span>
+              <span class="optional">note: |<br/>
+                <output id="o_note"></output></span><br/>
+              <span class="optional">flags:<br/><!-- ARRAY OUTPUTS MUST BE ALIGNED FLUSH RIGHT -->
+                <output id="o_flags" class="array"></output></span>
+              <br/></div .section>
+            <div class="sectioncontent optional"><span># linked contexts</span><br/>
+              <span class="optional">historic:<br/><!-- ARRAY OUTPUTS MUST BE ALIGNED FLUSH RIGHT -->
+                <output id="o_historic" class="array"></output></span>
+              <span class="optional">infer:<br/><!-- ARRAY OUTPUTS MUST BE ALIGNED FLUSH RIGHT -->
+                <output id="o_infer" class="array"></output></span>
+              <span class="optional">basis:<br/><!-- ARRAY OUTPUTS MUST BE ALIGNED FLUSH RIGHT -->
+                <output id="o_basis" class="array"></output></span>
+              <span class="optional">check:<br/><!-- ARRAY OUTPUTS MUST BE ALIGNED FLUSH RIGHT -->
+                <output id="o_check" class="array"></output></span>
+              <span class="optional">validity:<br/><!-- ARRAY OUTPUTS MUST BE ALIGNED FLUSH RIGHT -->
+                <output id="o_validity" class="array"></output></span>
+              <br/></div .sectioncontent>
+            <div class="sectioncontent optional"><span># non-conformant anomaly; or security team threat and risk details</span><br/>
+              <span class="optional">threatActor: <output id="o_threatActor"></output></span><br/>
+              <span class="optional">threatClass: <output id="o_threatClass"></output></span><br/>
+              <span class="optional">threatDefence: <output id="o_threatDefence"></output></span><br/>
+              <span class="optional">threatOccurence: <output id="o_threatOccurence"></output></span><br/>
+              <span class="optional">threatSeverity: <output id="o_threatSeverity"></output></span><br/>
+              <br/>
+              <span class="optional">riskControl: <output id="o_riskControl"></output></span><br/>
+              <span class="optional">riskType: <output id="o_riskType"></output></span><br/></div .section>
+          </div #contentcontent>
+          <div class="right" data-tip="download YAML-file"><input type="submit" value="Download"/></div>
+
+        </div #right>
+      </div #wrap>
+      <div id="filteredcontent"></div #filteredcontent>
+    </form>
+
+    <script>
+      document.getElementById("registrationDate").value = new Date().toISOString().substring(0, 10);
+    </script>
+    <script>
+      for (let el of document.getElementsByTagName("select")) {
         if (el.required) {
-            change(el);
+          change(el);
         }
-    }
-    for (let tag of ["input", "textarea", "select"]) {
+      }
+      for (let tag of ["input", "textarea", "select"]) {
         for (let el of document.getElementsByTagName(tag)) {
-            if (el.required && el.name != "team") {  // FIXME: too brittle
-                el.parentElement.getElementsByClassName("brief")[0].classList.add("required");
-            }
+          if (el.required && el.name != "team") {  // FIXME: too brittle
+            el.parentElement.getElementsByClassName("brief")[0].classList.add("required");
+          }
         }
-    }
-</script>
-</body>
+      }
+    </script>
+  </body>
 </html>
