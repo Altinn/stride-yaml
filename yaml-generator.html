@@ -246,14 +246,14 @@
           </div .field>
 
           <div class="field" id="model">
-            <div class="brief">model</div .brief>
+            <div class="brief">Model</div .brief>
             <div class="desc">URI to sketch, story, markdown providing the evaluation of threats and a common understanding of the scenario.</div .desc>
             <input name="model" type="url" placeholder="https://..." pattern="^(https:\/\/)+[\w\-\._~:\/?#[\]@!\$&'\(\)\*\+,;=.]+$" oninput="change(this);" required/>
             <div class="under"></div .under>
           </div .field>
 
           <div class="field" id="asset">
-            <div class="brief">asset</div .brief>
+            <div class="brief">Asset</div .brief>
             <div class="desc">A single value that can be compromised.</div .desc>
             <input name="asset" type="text" placeholder="verdi som man vil beskytte" oninput="change(this);" required/>
             <div class="under"></div .under>
@@ -274,7 +274,7 @@
           </div .field>
 
           <div class="field array" id="parts">
-            <div class="brief">parts</div .brief>
+            <div class="brief">Parts</div .brief>
             <div class="desc">Systems or components that have weakness, and/or contain the asset pertaining to the threat herein.</div .desc>
             <!-- input name="parts" type="text" placeholder=" - ..." oninput="change(this);" required/ -->
             <textarea name="parts" type="text" placeholder=" - ... &#x0a; - ..." oninput="change(this);" required></textarea>
@@ -283,14 +283,14 @@
           </div .field>
 
           <div class="field" id="domain">
-            <div class="brief">domain</div .brief>
+            <div class="brief">Domain</div .brief>
             <div class="desc">Area of ownership or accountability - to asset and parts - specific Product, Team, Department, Role.</div .desc>
             <input name="domain" type="text" placeholder="..." oninput="change(this);" required/>
             <div class="under"></div .under>
           </div .field>
 
           <div class="field" id="threat">
-            <div class="brief">threat</div .brief>
+            <div class="brief">Threat</div .brief>
             <div class="desc">STRIDE threat methodology with TRIM extension from F-Secure. <a data-tip="lenke til Github F-secure STRIDE-TRIM" href="https://github.com/F-Secure/elevation-of-privacy">➦</a></div .desc>
             <select name="threat" onchange="change(this);" required>
               <option value="spoofing">spoofing</option>
@@ -308,7 +308,7 @@
           </div .field>
 
           <div class="field" id="threatInfo">
-            <div class="brief">threatInfo</div .brief>
+            <div class="brief">Threat info</div .brief>
             <div class="desc">A short description on how this threat is possible and relevant.</div .desc>
             <textarea name="threatInfo" type="text" placeholder="beskrivelse..." oninput="change(this);" required></textarea>
             <div class="textclone"></div> <!-- textclone-div must be immediate sibling following textarea -->
@@ -320,14 +320,14 @@
           </div .field>
 
           <div class="field" id="threatFix">
-            <div class="brief">threatFix</div .brief>
+            <div class="brief">Threat fix</div .brief>
             <div class="desc">Direction, or area of remediation, for handling the threat.</div .desc>
             <input name="threatFix" type="text" placeholder="..." oninput="change(this);" required/>
             <div class="under">encryption of data at rest; hardening of host; scrubbing of PII from logs; ...</div .under>
           </div .field>
 
           <div class="field" id="threatRating">
-            <div class="brief">threatRating</div .brief>
+            <div class="brief">Threat rating</div .brief>
             <div class="desc">The team evaluates the importance of this threat as follows.</div .desc>
             <select name="threatRating" onchange="change(this);" required>
               <option value="void">temporary</option>
@@ -342,7 +342,7 @@
           <div class="section" onclick="return toggle(this);">Risk details...</div .section>
           <div class="collapse">
             <div class="field" id="risk">
-              <div class="brief">risk</div .brief>
+              <div class="brief">Risk</div .brief>
               <div class="desc">Decided risk treatment.</div .desc>
               <select name="risk" onchange="change(this);">
                 <option value="keep">keep</option>
@@ -355,14 +355,14 @@
             </div .field>
 
             <div class="field" id="riskDecider">
-              <div class="brief">riskDecider</div .brief>
+              <div class="brief">Risk decider</div .brief>
               <div class="desc">Who gave the final decision of risk treatment above.</div .desc>
               <input name="riskDecider" type="email" placeholder="first.last@digdir.no" oninput="change(this);"/>
               <div class="under">email name of the decider of risk treatment for final state providing full disclosure and traceability</div .under>
             </div .field>
 
             <div class="field" id="riskGoal">
-              <div class="brief">riskGoal</div .brief>
+              <div class="brief">Risk goal</div .brief>
               <div class="desc">Desired risk treatment category.</div .desc>
               <select name="riskGoal" onchange="change(this);">
                 <option value="deter">deter</option>
@@ -377,13 +377,13 @@
             </div .field>
 
             <div class="field" id="riskOwner">
-              <div class="brief">riskOwner</div .brief>
+              <div class="brief">Risk owner</div .brief>
               <div class="desc">identity or name of - Person, Department, Organisation, Role, Team, Level, Partner, Supplier, Client, User, Political, Administration, Manager.</div .desc>
               <input name="riskOwner" type="text" placeholder="verdi som man vil beskytte" oninput="change(this);"/>
               <div class="under">(tbd); first.last@domain.tld; product manager; team infrastructure; security governance department</div .under>
             </div .field>
             <div class="field" id="riskControl">
-              <div class="brief">riskControl</div .brief>
+              <div class="brief">Risk control</div .brief>
               <div class="desc">Security control classification confer ISO 27001 &amp; 27002 - 2022-versions.</div .desc>
               <select name="riskControl" onchange="change(this);">
                 <option value="" selected></option>
@@ -396,7 +396,7 @@
             </div .field>
 
             <div class="field" id="riskType">
-              <div class="brief">riskType</div .brief>
+              <div class="brief">Risk type</div .brief>
               <div class="desc">Which risk is directly affected by the threat herein and is owned somewhere in the enterprise.</div .desc>
               <select name="riskType" onchange="change(this);">
                 <option value="" selected></option>
@@ -478,7 +478,7 @@
           <div class="collapse">
 
             <div class="field" id="state">
-              <div class="brief">state</div .brief>
+              <div class="brief">State</div .brief>
               <div class="desc">Lifecycle of this threat.</div .desc>
               <select name="state" onchange="change(this);" required>
                 <option value="begin" selected>begin</option>
@@ -491,7 +491,7 @@
             </div .field>
 
             <div class="field array" id="expertise">
-              <div class="brief">expertise</div .brief>
+              <div class="brief">Expertise</div .brief>
               <div class="desc">Someone who needs to add more context before proceeding.</div .desc>
               <!-- input name="expertise" type="text" placeholder=" - ..." oninput="change(this);"/ -->
               <textarea name="expertise" type="text" placeholder=" - ... &#x0a; - ..." oninput="change(this);"></textarea>
@@ -500,7 +500,7 @@
             </div .field>
 
             <div class="field" id="note">
-              <div class="brief">note</div .brief>
+              <div class="brief">Note</div .brief>
               <div class="desc">Current workflow or some additional context to handling this threat.</div .desc>
               <textarea name="note" type="text" placeholder="beskrivelse..." oninput="change(this);"></textarea>
               <div class="textclone"></div> <!-- textclone-div must be immediate sibling following textarea -->
@@ -508,14 +508,14 @@
             </div .field>
 
             <div class="field" id="flags">
-              <div class="brief">flags</div .brief>
+              <div class="brief">Flags</div .brief>
               <div class="desc">Customizable flags for automation, flexibility and extensibility.</div .desc>
               <input name="flags" type="text" placeholder=" - ..." oninput="change(this);"/>
               <div class="under">defer; test-case; ...</div .under>
             </div .field>
 
             <div class="field" id="threatActor">
-              <div class="brief">threatActor</div .brief>
+              <div class="brief">Threat actor</div .brief>
               <div class="desc">What is the origin of the threat.</div .desc>
               <select name="threatActor" onchange="change(this);">
                 <option value="state">state</option>
@@ -540,7 +540,7 @@
             </div .field>
 
             <div class="field" id="threatClass">
-              <div class="brief">threatClass</div .brief>
+              <div class="brief">Threat class</div .brief>
               <div class="desc">What classification/capability is impacted by the threat or what kind of consequence can be expected to exert a negative outcome.</div .desc>
               <select name="threatClass" onchange="change(this);">
                 <option value="" selected></option>
@@ -592,7 +592,7 @@
             </div .field>
 
             <div class="field" id="threatDefence">
-              <div class="brief">threatDefence</div .brief>
+              <div class="brief">Threat defence</div .brief>
               <div class="desc">Which layer will the remediation or decision apply to - cf SABSA model for defence in depth.</div .desc>
               <select name="threatDefence" onchange="change(this);">
                 <option value="" selected></option>
@@ -609,7 +609,7 @@
             </div .field>
 
             <div class="field" id="threatOccurence">
-              <div class="brief">threatOccurence</div .brief>
+              <div class="brief">Threat occurence</div .brief>
               <div class="desc">Based on historic or evidence elsewhere.</div .desc>
               <select name="threatOccurence" onchange="change(this);">
                 <option value="" selected></option>
@@ -623,7 +623,7 @@
             </div .field>
 
             <div class="field" id="threatSeverity">
-              <div class="brief">threatSeverity</div .brief>
+              <div class="brief">Threat severity</div .brief>
               <div class="desc">What is the potential consequence of this threat as evaluated by the team.</div .desc>
               <select name="threatSeverity" onchange="change(this);">
                 <option value="" selected></option>
@@ -643,7 +643,7 @@
           <div class="collapse">
 
             <div class="field array" id="historic">
-              <div class="brief">historic</div .brief>
+              <div class="brief">Historic</div .brief>
               <div class="desc">Systems or components that have weakness, and/or contain the asset pertaining to the threat herein.</div .desc>
               <!-- input name="historic" type="url" placeholder="https://..." pattern="^(https:\/\/)+[\w\-\._~:\/?#[\]@!\$&'\(\)\*\+,;=.]+$" oninput="change(this);"/ -->
               <textarea name="historic" type="text" placeholder=" - https://... &#x0a; - https://..." oninput="change(this);"></textarea>
@@ -652,7 +652,7 @@
             </div .field>
 
             <div class="field array" id="infer">
-              <div class="brief">infer</div .brief>
+              <div class="brief">Infer</div .brief>
               <div class="desc">Systems or components that have weakness, and/or contain the asset pertaining to the threat herein.</div .desc>
               <!-- input name="infer" type="url" placeholder="https://..." pattern="^(https:\/\/)+[\w\-\._~:\/?#[\]@!\$&'\(\)\*\+,;=.]+$" oninput="change(this);"/ -->
               <textarea name="infer" type="text" placeholder=" - https://... &#x0a; - https://..." oninput="change(this);"></textarea>
@@ -661,7 +661,7 @@
             </div .field>
 
             <div class="field array" id="basis">
-              <div class="brief">basis</div .brief>
+              <div class="brief">Basis</div .brief>
               <div class="desc">Systems or components that have weakness, and/or contain the asset pertaining to the threat herein.</div .desc>
               <!-- input name="basis" type="url" placeholder="https://..." pattern="^(https:\/\/)+[\w\-\._~:\/?#[\]@!\$&'\(\)\*\+,;=.]+$" oninput="change(this);"/ -->
               <textarea name="basis" type="text" placeholder=" - https://... &#x0a; - https://..." oninput="change(this);"></textarea>
@@ -670,7 +670,7 @@
             </div .field>
 
             <div class="field array" id="check">
-              <div class="brief">check</div .brief>
+              <div class="brief">Check</div .brief>
               <div class="desc">Systems or components that have weakness, and/or contain the asset pertaining to the threat herein.</div .desc>
               <!-- input name="check" type="url" placeholder="https://..." pattern="^(https:\/\/)+[\w\-\._~:\/?#[\]@!\$&'\(\)\*\+,;=.]+$" oninput="change(this);"/ -->
               <textarea name="check" type="text" placeholder=" - https://... &#x0a; - https://..." oninput="change(this);"></textarea>
@@ -679,7 +679,7 @@
             </div .field>
 
             <div class="field array" id="validity">
-              <div class="brief">validity</div .brief>
+              <div class="brief">Validity</div .brief>
               <div class="desc">Systems or components that have weakness, and/or contain the asset pertaining to the threat herein.</div .desc>
               <!-- input name="validity" type="url" placeholder="https://..." pattern="^(https:\/\/)+[\w\-\._~:\/?#[\]@!\$&'\(\)\*\+,;=.]+$" oninput="change(this);"/ -->
               <textarea name="validity" type="text" placeholder=" - https://... &#x0a; - https://..." oninput="change(this);"></textarea>
