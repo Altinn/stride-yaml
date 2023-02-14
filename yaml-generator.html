@@ -40,7 +40,7 @@
       .desc a { font-weight: bold; text-decoration: none; color: #c62a; }
       .under { margin-top: 0.5ex; filter: opacity(30%); font-style: italic; }
       .under:not(:empty)::before { content: "E.g: "; font-style: normal; }
-      #o_linkScope, #o_threatInfo, #o_note { margin: 0 1em; display: inline-block; }
+      #o_linkScope, #o_threatInfo, #o_note, { margin: 0 1em; display: inline-block; }
       output.array { margin: 0 1em; display: block; clear: both; }
 
       /*
@@ -230,9 +230,6 @@
           </div #team>
 
           <br/><br/>
-
-          <input id="registrationDate" type="date">
-
 
           <div class="field" id="synopsis">
             <div class="brief">Synopsis</div .brief>
@@ -701,8 +698,8 @@
           <!-- NO INDENTING BELOW - the following content must not use whitespace indenting since that would give indents in the YAML file generated -->
           <div id="content"># yaml-language-server: $schema:tm-some.json<br/>
             <br/>
+            registrationDate: <output id="o_registrationDate"></output><br/> 
             # scenario definitions and scoping<br/>
-            link: <output id="o_link"></output><br/>
             linkScope: |<br/>
             <output id="o_linkScope"></output><br/>
             model: <output id="o_model"></output><br/>
@@ -765,7 +762,7 @@
     </form>
 
     <script>
-      document.getElementById("registrationDate").value = new Date().toISOString().substring(0, 10);
+      document.getElementById("o_registrationDate").value = new Date().toISOString().substring(0, 10);
     </script>
     <script>
       for (let el of document.getElementsByTagName("select")) {
