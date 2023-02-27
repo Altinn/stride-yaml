@@ -145,18 +145,18 @@
   suits: {
     Spoofing: {
       2: "An attacker could take over the port or socket that the server normally uses.",
-        3: "An attacker could try one credential after another and there's nothing to slow them down (online or offline)",
-        4: "An attacker can anonymously connect, because we expect authentication to be done at a higher level",
-        5: "An attacker can confuse a client because there are too many ways to identify a server",
-        6: "An attacker can spoof a server because identifiers aren't stored on the client and checked for consistency on re-connection (that is, there's no key persistence)",
-        7: "An attacker can connect to a server or peer over a link that isn't authenticated (and encrypted)",
-        8: "An attacker could steal credentials stored on the server and reuse them (for example, a key is stored in a world readable file)",
-        9: "An attacker who gets a password can reuse it (Use stronger authenticators)",
-        10: "An attacker can choose to use weaker or no authentication",
-        J: "An attacker could steal credentials stored on the client and reuse them",
-        Q: "An attacker could go after the way credentials are updated or recovered (account recovery doesn't require disclosing the old password)",
-        K: "Your system ships with a default admin password, and doesn't force a change",
-        A: "You've invented a new Spoofing attack"
+      3: "An attacker could try one credential after another and there's nothing to slow them down (online or offline)",
+      4: "An attacker can anonymously connect, because we expect authentication to be done at a higher level",
+      5: "An attacker can confuse a client because there are too many ways to identify a server",
+      6: "An attacker can spoof a server because identifiers aren't stored on the client and checked for consistency on re-connection (that is, there's no key persistence)",
+      7: "An attacker can connect to a server or peer over a link that isn't authenticated (and encrypted)",
+      8: "An attacker could steal credentials stored on the server and reuse them (for example, a key is stored in a world readable file)",
+      9: "An attacker who gets a password can reuse it (Use stronger authenticators)",
+      10: "An attacker can choose to use weaker or no authentication",
+      J: "An attacker could steal credentials stored on the client and reuse them",
+      Q: "An attacker could go after the way credentials are updated or recovered (account recovery doesn't require disclosing the old password)",
+      K: "Your system ships with a default admin password, and doesn't force a change",
+      A: "You've invented a new Spoofing attack"
     },
     Tampering: {
       2: "An attacker can modify your build system and produce signed builds of your software",
@@ -188,7 +188,7 @@
       K: "The system has no logs",
         A: "You've invented a new Repudiation attack"
     },
-    InformationDisclosure: {
+    "Information disclosure": {
       2: "An attacker can brute-force file encryption because there's no defense in place (example defense, password stretching)",
         3: "An attacker can see error messages with security sensitive content",
         4: "An attacker can read content because messages (say, an email or HTTP cookie) aren't encrypted even if the channel is encrypted",
@@ -203,7 +203,7 @@
         K: "An attacker can read network information because there's no cryptography used",
         A: "You've invented a new Information Disclosure attack"
     },
-    DenialofService: {
+    "Denial of service": {
       2: "An attacker can make your authentication system unusable or unavailable",
         3: "An attacker can drain our easily replacable battery (battery, temporary)",
         4: "An attacker can drain a battery that's hard to replace (sealed in a phone, an implanted medical device, or in a hard to reach location) (battery, persist)",
@@ -218,7 +218,7 @@
         K: "An attacker can amplify a Denial of Service attack through this component with amplification on the order of 100 to 1",
         A: "You've invented a new Denial of Service attack"
     },
-    ElevationofPrivilege: {
+    "Elevation of privilege": {
       2: "An attacker has compromised a key technology supplier",
         3: "An attacker can access the cloud service which manages your devices",
         4: "An attacker can escape from a container or other sandbox",
@@ -232,6 +232,66 @@
         Q: "You include user-generated content within your page, possibly including the content of random URLs",
         K: "An attacker can inject a command that the system will run at a higher privilege level",
         A: "You've invented a new Elevation of Privilege attack"
+    },
+    Transport: {
+      2: "The application uses an API which makes them our data processor, but we don't know whether this is reflected in our API contract.",
+      3: "We provide an API that ingests personal data, but we dont know whether we are a data processor or a data controller, and its not defined in our contracts.",
+      4: "We call an API with personal data, but we do not jnuw where the API os being hosted geographically.",
+      5: "We export a database dump by writing a CSV file on an FTP site. What happens to the file after it has been downloaded is not our problem.",
+      6: "Some of our systems are hosted outside the EU, but the service provider says that they take security very seriously, so that's fine.<F4>",
+      7: "Our systems are being administered outside the EU, but admin access is not personal data access, right? Right?",
+      8: "We send personal data over email, but only within the company, so that should be fine, right?",
+      9: "We provide an API to access personal data, and we do not control who can access this API.",
+      10: "",
+      J: "",
+      Q: "",
+      K: "",
+      A: "You have identified a new data flow from your system."
+    },
+    Retention: {
+      2: "Users' file uploads containing personal data are saved to temp files on the front-end.",
+      3: "All personal data goes into a large pile in the cloud, and going through it to find individual records would cost a fortune in retreival and outbound data transfer fees.",
+      4: "We store personal data on disk, even though we only need it temporarily and could just cache it in memory.",
+      5: "When chaning data, we retain all old data in order to be able to show what has been changed.",
+      6: "The personal data is stored on a blockchain. We can't delete it at all.",
+      7: "Consent is a checkbox, but to withdraw the consent you need to email us.",
+      8: "We have not defined a specific retention time for pesonal data, but we can delete it if someone asks us to.",
+      9: "Yes, we have defined a retention time for pesonal data - it's defined bt the IT department based on disk space usage.",
+      10: "We cannot remove personal data as the database schema require the data to be there.",
+      J: "We have defined a retention time for personal data, but that's only a policy. There is no technolichal system that enforces it.",
+      Q: "",
+      K: "",
+      A: "You have found a new personal data storage location that you did not know existed."
+    },
+    Inference: {
+      2: "We use a common identifier across all the systems, and also expose this to tird parties.",
+      3: "Our geolocation data is as accurate as possible, even if we really only need tp know which city the user is from.",
+      4: "We use our users' names or email addresses as reference keys between systems, even if we could use random identifiers.",
+      5: "We use national ID numbers or SSNs as they are conveniently unique.",
+      6: "We use identifiers in our web links. These identifiers leak in browsers' referrer headers and get logged by redirectors and URL shorteners.",
+      7: "There is no review process for introducing new advertising providers on the web pages; whatever our designers like, or marketing sells, will be used.",
+      8: "Our telemetry is tied to the users, even though our analytics couldn't care less who the user actually is.",
+      9: "A neural network makes customer-related decisions, but nobody can really explain to the customers what the model is based on.",
+      10: "We do not make any checks to pesonal data before we use it for training machine learning models.",
+      J: "",
+      Q: "",
+      K: "",
+      A: "You found a new place where we can replace personal data with a random identifier."
+    },
+    Minimisation: {
+      2: "We put absolutely everything in the audit log, so we can positively audit all personal data activities.",
+      3: "Our testing data is mont-old copy from production. Fake data just does not have the same feel to it.",
+      4: "Our website does not worj at all with an ad blocker.",
+      5: "We send personal data to an API even though we believe it is really not being used for anything.",
+      6: "We'll just block EU and California from our site. We've got enough customers elsewhere.",
+      7: "",
+      8: "",
+      9: "",
+      10: "",
+      J: "",
+      Q: "",
+      K: "",
+      A: "You have found a piece if personal data that we can technolichally do without."
     }
   }
 };
@@ -341,6 +401,25 @@
         return false;
       }
 
+
+        function cardOptions(eopsuit)
+        {
+          var dropdown = document.getElementById("playingCard");
+          var suit = window.EOP_CARDS_DECK.suits[eopsuit];
+
+          while(dropdown.firstChild){
+            dropdown.removeChild(dropdown.firstChild); // Clear the dropdown
+          }
+
+          dropdown.appendChild(new Option("", ""));  //empty is always a valid choice
+          window.EOP_CARDS_DECK.rank_order.forEach(rank => {
+            var str = suit[rank];
+            dropdown.appendChild(new Option(str, str));  
+          });
+
+          document.getElementById(["o_playingCard"]).value=""; //Clear the exported attribute since it's no longer relevant
+        }
+
     </script>
 
     <form onsubmit="return downloader(this);">
@@ -353,7 +432,7 @@
           </div #template>
 
           <div id="team">
-            <select name="team"  required>
+            <select name="team" oninput="change(this);" required>
               <option value="team-fdk">team-fdk</option>
               <option value="team-platform">team-platform</option>
               <option value="team-authorization">team-authorization</option>
@@ -373,6 +452,18 @@
             <div class="under">system for server-side generering av PDF med kjøring av React-app i Chromium innenfor Tjenesteeiers AKS-cluster</div .under>
           </div .field>
 
+          <div class="field" id="threatInfo">
+            <div class="brief">Threat info</div .brief>
+            <div class="desc">A short description on how this threat is possible and relevant.</div .desc>
+            <textarea name="threatInfo" type="text" placeholder="beskrivelse..." oninput="change(this);" required></textarea>
+            <div class="textclone"></div> <!-- textclone-div must be immediate sibling following textarea -->
+            <div class="under">Når PDF genereres så kjøres samme React-applikasjon på serverside som hos brukerens nettleser,
+              og sesjonsnøkkelen er den samme begge steder for tilgang til data i skjema,
+              men hvis en ondsinnet aktør injiserer en svakhet i skjema så kan de få tak i andre sin session token.
+              Fordi React-applikasjonene kjøres i en kø på samme chromium-instans uten at denne stenges ned mellom hver kjøring
+              så kan noen hente ut session token i skjema.</div .under>
+          </div .field>
+
           <div class="field" id="link">
             <div class="brief">Issue link</div .brief>
             <div class="desc">URI to origin issue providing scenario definition.</div .desc>
@@ -383,7 +474,7 @@
           <div class="field" id="model">
             <div class="brief">Model</div .brief>
             <div class="desc">URI to sketch, story, markdown providing the evaluation of threats and a common understanding of the scenario.</div .desc>
-            <input name="model" type="url" placeholder="https://..." pattern="^(https:\/\/)+[\w\-\._~:\/?#[\]@!\$&'\(\)\*\+,;=.]+$" oninput="change(this);" required/>
+            <input name="model" type="url" placeholder="https://..." pattern="^(https:\/\/)+[\w\-\._~:\/?#[\]@!\$&'\(\)\*\+,;=.]+$" oninput="change(this);" />
             <div class="under"></div .under>
           </div .field>
 
@@ -427,39 +518,27 @@
           <div class="field" id="threat">
             <div class="brief">Threat</div .brief>
             <div class="desc">STRIDE threat methodology with TRIM extension from F-Secure. <a data-tip="lenke til Github F-secure STRIDE-TRIM" href="https://github.com/F-Secure/elevation-of-privacy">➦</a></div .desc>
-            <select name="threat" onchange="change(this);" required>
-              <option value="spoofing">spoofing</option>
-              <option value="tampering">tampering</option>
-              <option value="repudiation">repudiation</option>
-              <option value="information disclosure">information disclosure</option>
-              <option value="denial of service">denial of service</option>
-              <option value="elevation of privilege" selected>elevation of privilege</option>
-              <option value="transport of PII across boundary">transport of PII across boundary</option>
-              <option value="retention and removal of PII">retention and removal of PII</option>
-              <option value="inference of PII">inference of PII</option>
-              <option value="minimisation of PII and use">minimisation of PII and use</option>
+            <select name="threat" onchange="{change(this);cardOptions(value)}" required>
+              <option value="Spoofing">Spoofing</option>
+              <option value="Tampering">Tampering</option>
+              <option value="Repudiation">Repudiation</option>
+              <option value="Information disclosure">Information disclosure</option>
+              <option value="Denial of service">Denial of service</option>
+              <option value="Elevation of privilege" selected>Elevation of privilege</option>
+              <option value="Transport">Transport of PII across boundary</option>
+              <option value="Retention">Retention and removal of PII</option>
+              <option value="Inference">Inference of PII</option>
+              <option value="Minimisation">Minimisation of PII</option>
             </select>
             <div class="under">TRIM privacy extensions - Transport of personal data across geopolitical or contractual boundaries ** Retention and Removal of personal data ** Inference of personal data from other personal data, for example, through correlation ** Minimisation of personal data and its use.</div .under>
           </div .field>
 
-          <div class="field" id="threatInfo">
-            <div class="brief">Threat info</div .brief>
-            <div class="desc">A short description on how this threat is possible and relevant.</div .desc>
-            <textarea name="threatInfo" type="text" placeholder="beskrivelse..." oninput="change(this);" required></textarea>
-            <div class="textclone"></div> <!-- textclone-div must be immediate sibling following textarea -->
-            <div class="under">Når PDF genereres så kjøres samme React-applikasjon på serverside som hos brukerens nettleser,
-              og sesjonsnøkkelen er den samme begge steder for tilgang til data i skjema,
-              men hvis en ondsinnet aktør injiserer en svakhet i skjema så kan de få tak i andre sin session token.
-              Fordi React-applikasjonene kjøres i en kø på samme chromium-instans uten at denne stenges ned mellom hver kjøring
-              så kan noen hente ut session token i skjema.</div .under>
-          </div .field>
-
-          <div class="field" id="threatFix">
-            <div class="brief">Threat fix</div .brief>
-            <div class="desc">Direction, or area of remediation, for handling the threat.</div .desc>
-            <input name="threatFix" type="text" placeholder="..." oninput="change(this);" required/>
-            <div class="under">encryption of data at rest; hardening of host; scrubbing of PII from logs; ...</div .under>
-          </div .field>
+          <div class="field">
+            <div class="brief">Playing card</div .brief>
+            <div class="desc">Choose playing card have been acceped as correct description of the threat.</div .desc>
+            <select name="playingCard" id="playingCard" onchange="change(this);"></select>
+            <div class="under">The playing cards are based on STRIDE-TRIM and the options available are based on the above statement.</div .under>
+          </div>
 
           <div class="field" id="threatRating">
             <div class="brief">Threat rating</div .brief>
@@ -472,6 +551,13 @@
               <option value="top">top</option>
             </select>
             <div class="under">What has the team set as the level of importance for management to process and get to a risk decision in line with the enterprise risk appetite on this threat</div .under>
+          </div .field>
+
+          <div class="field" id="threatFix">
+            <div class="brief">Threat fix</div .brief>
+            <div class="desc">Direction, or area of remediation, for handling the threat.</div .desc>
+            <input name="threatFix" type="text" placeholder="..." oninput="change(this);"/>
+            <div class="under">encryption of data at rest; hardening of host; scrubbing of PII from logs; ...</div .under>
           </div .field>
 
           <div class="section" onclick="return toggle(this);">Risk details...</div .section>
@@ -834,6 +920,9 @@
           <div id="content"># yaml-language-server: $schema:tm-some.json<br/>
             <br/>
             registrationDate: <output id="o_registrationDate"></output><br/> 
+            team: <output id="o_team"></output><br/> 
+            synopsis: <output id="o_synopsis"></output><br/> 
+            issueLink: <output id="o_link"></output><br/> 
             # scenario definitions and scoping<br/>
             linkScope: |<br/>
             <output id="o_linkScope"></output><br/>
@@ -847,6 +936,7 @@
             domain: <output id="o_domain"></output><br/>
             <br/>
             threat: <output id="o_threat"></output><br/>
+            playingCard: <output id="o_playingCard"></output><br/>
             threatInfo: |<br/>
             <output id="o_threatInfo"></output><br/>
             threatFix: <output id="o_threatFix"></output><br/>
@@ -867,7 +957,7 @@
               <span class="optional">flags:<br/><!-- ARRAY OUTPUTS MUST BE ALIGNED FLUSH RIGHT -->
                 <output id="o_flags" class="array"></output></span>
               <br/></div .section>
-            <div class="sectioncontent optional"><span># linked contexts</span><br/>
+            <div class="sectioncontent optional"><span># Linked contexts</span><br/>
               <span class="optional">historic:<br/><!-- ARRAY OUTPUTS MUST BE ALIGNED FLUSH RIGHT -->
                 <output id="o_historic" class="array"></output></span>
               <span class="optional">infer:<br/><!-- ARRAY OUTPUTS MUST BE ALIGNED FLUSH RIGHT -->
@@ -879,7 +969,7 @@
               <span class="optional">validity:<br/><!-- ARRAY OUTPUTS MUST BE ALIGNED FLUSH RIGHT -->
                 <output id="o_validity" class="array"></output></span>
               <br/></div .sectioncontent>
-            <div class="sectioncontent optional"><span># non-conformant anomaly; or security team threat and risk details</span><br/>
+            <div class="sectioncontent optional"><span># Extended fields</span><br/>
               <span class="optional">threatActor: <output id="o_threatActor"></output></span><br/>
               <span class="optional">threatClass: <output id="o_threatClass"></output></span><br/>
               <span class="optional">threatDefence: <output id="o_threatDefence"></output></span><br/>
