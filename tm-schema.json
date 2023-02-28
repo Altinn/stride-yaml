@@ -1,0 +1,239 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "https://example.com/tm-schema",
+  "title": "JSON Schema for *.threat.yml files",
+  "description": "Threat modelling files following the threatmodelingmanifesto.org .",
+    "__info": [
+      "This file contains the JSON Schema for threat modelling files and is:",
+      "1) Hosted on the Altinn Github repo.",
+      "2) Not yet registered on the SchemaStore catalog so that editors can offer autocompletion and validation.",
+      "3) Used to generate the documentation page on Altinnpedia",
+  
+      "Note: Properties prefixed with a single underscore (e.g. _exampleItems, _exampleKeys)",
+      "are unique to our YAML-generation interpreter. All others will be picked up",
+      "by most JSON schema interpreters.",
+  
+      "Rules:",
+      "1) Don't set a default if it's null, dynamic, or an object.",
+      "2) Use `examples` for scalars, `_exampleItems` for arrays, and `_exampleKeys` for objects."
+    ],
+  "type": "object",
+  "required-all": [ "link", "linkScope", "model", "note", "asset", "assetValue", "parts", "domain", "historic", "infer", "expertise", "basis", "check", "validity", "risk", "riskControl", "riskDecider", "riskGoal", "riskOwner", "riskType", "state", "threat", "threatActor", "threatClass", "threatDefence", "threatFix", "threatInfo", "threatOccurence", "threatRating", "threatSeverity", "flags" ],
+  "required-old": [ "link", "linkScope", "model", "note", "asset", "assetValue", "parts", "domain", "risk", "riskDecider", "riskGoal", "riskOwner", "riskType", "state", "threat", "threatActor", "threatClass", "threatDefence", "threatFix", "threatInfo", "threatOccurence", "threatRating", "threatSeverity" ],
+  "required": [
+    "link", "linkScope", "model", "asset", "assetValue", "parts", "domain",
+    "threat", "threatInfo", "threatFix", "threatRating", 
+    "state"
+  ],
+  "properties": {
+    "link": {
+      "description": "URI to origin issue providing scenario definition",
+      "type": "string",
+      "default": ""
+    }
+    ,"linkScope": {
+      "description": "synopsis of limitations, boundaries or scenario summary",
+      "type": "string",
+      "default": ""
+    }
+    ,"model": {
+      "description": "URI to sketch, story, markdown providing the evaluation of threats and a common understanding of the scenario",
+      "type": "string",
+      "default": ""
+    }
+    ,"note": {
+      "description": "current workflow or some additional context to handling this threat",
+      "type": "string",
+      "default": ""
+    }
+    ,"asset": {
+      "description": "a single value that can be compromised",
+      "type": "string",
+      "default": ""
+    }
+    ,"assetValue": {
+      "description": "the evaluated criticality of the asset to the technical parts, context of the domain or enterprise as a whole",
+      "enum": ["temporary", "desirable", "needed", "integral", "vital", "society"]
+    }
+    ,"parts": {
+      "description": "systems or components that have weakness, and/or contain the asset pertaining to the threat herein",
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    }
+    ,"domain": {
+      "description": "area of ownership or accountability - to asset and parts - specific Product, Team, Department, Role",
+      "type": "string",
+      "examples": [ "Altinn Studio", "team fdk", "Azure AD administrator"]
+    }
+    ,"historic": {
+      "description": "URIs to relevant previous occurences, examples, evidence supporting the evalutation of the threat herein",
+      "type": "array",
+      "minItems": 0,
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    }
+    ,"infer": {
+      "description": "URI reference to internal playbooks, tests, requirements, library",
+      "type": "array",
+      "minItems": 0,
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    }
+    ,"expertise": {
+      "description": "Github usernames - for quick notifications on auto-generated issues based on TM",
+      "type": "array",
+      "minItems": 0,
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    }
+    ,"basis": {
+      "description": "namespaced references to principles, best-practice, CWE, Owasp-controls etc -  ASVS-4.0.3-1.1.3, 2021Top10, 2017Top10, ApiTop10, k8sTop10, GDPR, NSM, Internal-Policy, ...",
+      "type": "array",
+      "minItems": 0,
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    }
+    ,"check": {
+      "description": "URIs to helpful guidance, procedures, knowledge, norms and tips - documentation",
+      "type": "array",
+      "minItems": 0,
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    }
+    ,"validity": {
+      "description": "URI references to area in policy and compliance",
+      "type": "array",
+      "minItems": 0,
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    }
+    ,"risk": {
+      "description": "decided risk treatment",
+      "enum": [ "keep", "transfer", "mitigate", "avoid", "escalate" ],
+      "examples": [ "mitigate", "avoid" ],
+      "default": "mitigate"
+    }
+    ,"riskControl": {
+      "description": "security control classification cf ISO 27001 & 27002 - 2022-versions",
+      "enum": [null,
+        "organisation", "people", "physical", "technical"
+      ],
+      "examples": [ "technical", "organisation" ],
+      "default": null
+    }
+    ,"riskDecider": {
+      "description": "email name of the decider of risk treatment for final state providing full disclosure and traceability",
+      "type": "string",
+      "examples": [ "(tbd)", "...", "first.last@domain.tld" ],
+      "default": "..."
+    }
+      ,"riskGoal": {
+      "description": "desired risk treatment category - a mashup from SABSA and ISO 27005",
+      "enum": [ null,
+        "deter", "prevent", "contain", "detect", "track", "recover", "assure"
+      ],
+      "examples": [ "prevent" ],
+      "default": null
+    }
+    ,"riskOwner": {
+      "description": "identity or name of - Person, Department, Organisation, Role, Team, Level, Partner, Supplier, Client, User, Political, Administration, Manager",
+      "type": "string",
+      "examples": [ "...", "(tbd)", "first.last@domain.tld", "product manager", "team infrastructure", "security governance department" ],
+      "default": "..."
+    }
+    ,"riskType": {
+      "description": "which risk is directly affected by the threat herein and is owned somewhere in the enterprise",
+      "enum": [null,
+        "Reputation", "Credibility", "Strategic", "Health", "Safety", "Information", "Governance", "Resilience", "Preparedness", "Recovery", "Sustainability", "Ecological", "Operational", "Effectiveness", "Respect",
+        "Processing", "Behaviour", "Project", "Criminal", "HR", "Supply", "Ethics", "Climate", "Political", "Cultural", "Compliance", "Management", "Performance", "Communication", "Finance", "Traceability", "Responsive",
+        "Trust", "Authority", "Control", "Confidentiality", "Integrity", "Availability", "Engagement", "Motivation", "Transparency", "Accuracy", "Assurance", "Identity", "Access", "Services", "Usability", "Current", 
+        "Authenticity", "Support", "Relevance", "Cost", "Consistent", "Interoperability", "Flexibility", "Extendibility", "Maintainable", "Reliability", "Standard", "Beneficial", "Reproducible", "Updated",
+        "Accountability", "Leadership", "Provider", "Comparability", "Clarity", "Partnership", "Predictability"
+      ],
+      "examples": [ "Reputation", "Authenticity", "Compliance", "Health" ],
+      "default": null
+    }
+    ,"state": {
+      "description": "lifecycle of this threat",
+      "enum": [ "begin", "clarify", "defer", "escalate", "final" ],
+      "examples": [ "begin" ],
+      "default": "begin"
+    }
+    ,"threat": {
+      "description": "STRIDE threat methodology with TRIM extension from F-Secure.\n * Transport of personal data across geopolitical or contractual boundaries \n * Retention and Removal of personal data \n * Inference of personal data from other personal data, for example, through correlation \n * Minimisation of personal data and its use",
+      "enum": [ "spoofing", "tampering", "repudiation", "information disclosure", "denial of service", "elevation of privilege", "transport of PII across boundary", "retention and removal of PII", "inference of PII", "minimisation of PII and use" ],
+      "examples": [ "spoofing", "tampering", "information disclousure" ]
+    }
+    ,"threatActor": {
+      "description": "ISO 27005:2022 categories of threat actors and common sources of unintended consequences",
+      "enum": [null,
+        "state", "criminal", "terrorist", "activist", "specialist", "amateur", "avenger", "opportunist", "other", "design", "awareness", "negligence", "environment", "failure", "complication", "audit", "anomaly"
+      ],
+      "examples": [ "anomaly", "design", "state", "opportunist" ],
+      "default": null
+    }
+    ,"threatClass": {
+      "description": "what classification/capability is impacted by the threat or what kind of consequence can be expected to exert a negative outcome",
+      "enum": [null,
+        "organisation", "personnel", "physical", "technical", "privacy", "site", "network", "perimeter", "system", "configuration", "logging", "monitoring", "dependency", "contractual", "resources", "time", "resilience", "response",
+        "political", "economic", "social", "legal", "ethical", "demographic", "operational", "scaling", "environmental", "culture", "manipulation", "breach", "leak", "oversight", "randomness", "exploit",
+        "fines", "interruption", "disruption", "theft", "fraud", "loss", "influence", "other", "unknown"
+      ]
+    }
+    ,"threatDefence": {
+      "description": "which layer will the remediation or decision apply to - cf SABSA model for defence in depth",
+      "enum": [null,
+        "governance", "operational", "physical", "hardware", "system", "application", "crypto", "information"
+      ]
+    }
+    ,"threatFix": {
+      "description": "direction or area for remediation",
+      "type": "string"
+    }
+    ,"threatInfo": {
+      "description": "a short description on how this threat is possible and relevant",
+      "type": "string"
+    }
+    ,"threatOccurence": {
+      "description": "based on historic or evidence elsewhere",
+      "enum": [null,
+        "unlikely", "rare", "likely", "frequent", "certain"
+      ]
+    }
+    ,"threatRating": {
+      "description": "what has the team set as the level of importance for management to process and get to a risk decision in line with the enterprise risk appetite on this threat",
+      "enum": [ "void", "low", "medium", "high", "top" ]
+    }
+    ,"threatSeverity": {
+      "description": "what is the potential consequence of this threat",
+      "enum": [null,
+        "neglible", "minor", "significant", "major", "critical", "catastrophic"
+      ]
+    }
+    ,"flags": {
+      "description": "customizable flags for automation, flexibility and extensibility",
+      "type": "array",
+      "minItems": 0,
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+   }
+  }
+}
