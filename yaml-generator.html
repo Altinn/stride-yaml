@@ -40,7 +40,7 @@
       .desc a { font-weight: bold; text-decoration: none; color: #c62a; }
       .under { margin-top: 0.5ex; filter: opacity(30%); font-style: italic; }
       .under:not(:empty)::before { content: "E.g: "; font-style: normal; }
-      #o_linkScope, #o_threatInfo, #o_note { margin: 0 1em; display: inline-block; }
+      #o_synopsis, #o_threatInfo, #o_note { margin: 0 1em; display: inline-block; }
       output.array { margin: 0 1em; display: block; clear: both; }
 
       /*
@@ -300,27 +300,43 @@
     <script>
 
       function change(el) {
-        let ol = document.getElementById(["o_" + el.name]);
-        if (!ol) return false; // FIXME: too brittle
+        let yamlobj = document.getElementById(["o_" + el.name]);
+        if (!yamlobj) return false; // FIXME: too brittle
+
+        let classl=el.parentElement.classList;
         if (el.parentElement.classList.contains("array")) {
           let v = "";
-          for (let ll of el.value.split(/[\r\n]+/)) {
-            let s = ll.replace(/^\s*[-*]\s*/, "").trim();
+          for (let row of el.value.split(/[\r\n]+/)) {
+            let s = row.replace(/^\s*[-*]\s*/, "").trim();
             if (s != "") v += "  - " + s + "<br/>\n"; // the breaks shows array elements nicely ordered on separate lines
           }
-          ol.innerHTML = v; // need styled content instead of values since we have output-elements with break-children for each array element
+          yamlobj.innerHTML = v; // need styled content instead of values since we have output-elements with break-children for each array element
         } else {
-          ol.value = el.value;
+          yamlobj.value = el.value;
         }
-        if (el.tagName === "TEXTAREA") {
+
+        if (el.tagName == "TEXTAREA") {
           let cl = el.nextElementSibling;
-          cl.innerHTML = el.value;
+          let val = "";
+
+          el.value.split(/[\r\n]+/).forEach((row, index) => {
+            let line =  row.trim();
+            if(line != "" ) val+="  "+line +"<br/>\n";
+          });
+
+          if (!el.parentElement.classList.contains("array")) { //Arrays are formatted in a textarea
+            yamlobj.innerHTML = val;
+          }
+
           cl.style.visibility = "hidden";
           cl.style.display = "block";
+          cl.innerHTML = val;
           el.style.height = cl.offsetHeight + 5 + 'px'; // avoids cutting short
+          
           cl.style.visibility = "visible";
           cl.style.display = "none";
         }
+
         return false;
       };
 
@@ -457,11 +473,8 @@
             <div class="desc">A short description on how this threat is possible and relevant.</div .desc>
             <textarea name="threatInfo" type="text" placeholder="beskrivelse..." oninput="change(this);" required></textarea>
             <div class="textclone"></div> <!-- textclone-div must be immediate sibling following textarea -->
-            <div class="under">Når PDF genereres så kjøres samme React-applikasjon på serverside som hos brukerens nettleser,
-              og sesjonsnøkkelen er den samme begge steder for tilgang til data i skjema,
-              men hvis en ondsinnet aktør injiserer en svakhet i skjema så kan de få tak i andre sin session token.
-              Fordi React-applikasjonene kjøres i en kø på samme chromium-instans uten at denne stenges ned mellom hver kjøring
-              så kan noen hente ut session token i skjema.</div .under>
+            <div class="under">When the PDF file is generated the React application serverside is run at the same time. The session key is the same in both places. 
+              A malicios actor can use a weakness in the scema and thereby gain accesss the access token.</div .under>
           </div .field>
 
           <div class="field" id="link">
@@ -519,16 +532,17 @@
             <div class="brief">Threat</div .brief>
             <div class="desc">STRIDE threat methodology with TRIM extension from F-Secure. <a data-tip="lenke til Github F-secure STRIDE-TRIM" href="https://github.com/F-Secure/elevation-of-privacy">➦</a></div .desc>
             <select name="threat" onchange="{change(this);cardOptions(value)}" required>
+              <option value="" selected></option>
               <option value="Spoofing">Spoofing</option>
               <option value="Tampering">Tampering</option>
               <option value="Repudiation">Repudiation</option>
               <option value="Information disclosure">Information disclosure</option>
               <option value="Denial of service">Denial of service</option>
-              <option value="Elevation of privilege" selected>Elevation of privilege</option>
+              <option value="Elevation of privilege">Elevation of privilege</option>
               <option value="Transport">Transport of PII across boundary</option>
               <option value="Retention">Retention and removal of PII</option>
               <option value="Inference">Inference of PII</option>
-              <option value="Minimisation">Minimisation of PII</option>
+              <option value="Minimisation">Mnimisation of PII</option>
             </select>
             <div class="under">TRIM privacy extensions - Transport of personal data across geopolitical or contractual boundaries ** Retention and Removal of personal data ** Inference of personal data from other personal data, for example, through correlation ** Minimisation of personal data and its use.</div .under>
           </div .field>
@@ -919,66 +933,63 @@
           <!-- NO INDENTING BELOW - the following content must not use whitespace indenting since that would give indents in the YAML file generated -->
           <div id="content"># yaml-language-server: $schema:tm-some.json<br/>
             <br/>
-            registrationDate: <output id="o_registrationDate"></output><br/> 
-            team: <output id="o_team"></output><br/> 
-            synopsis: <output id="o_synopsis"></output><br/> 
-            issueLink: <output id="o_link"></output><br/> 
-            # scenario definitions and scoping<br/>
-            linkScope: |<br/>
-            <output id="o_linkScope"></output><br/>
-            model: <output id="o_model"></output><br/>
-            <br/>
-            # threat problem statement<br/>
-            asset: <output id="o_asset"></output><br/>
-            assetValue: <output id="o_assetValue"></output><br/>
-            parts:<br/><!-- ARRAY OUTPUTS MUST BE ALIGNED FLUSH RIGHT -->
-            <output id="o_parts" class="array"></output>
-            domain: <output id="o_domain"></output><br/>
-            <br/>
-            threat: <output id="o_threat"></output><br/>
-            playingCard: <output id="o_playingCard"></output><br/>
-            threatInfo: |<br/>
-            <output id="o_threatInfo"></output><br/>
-            threatFix: <output id="o_threatFix"></output><br/>
-            threatRating: <output id="o_threatRating"></output><br/>
-            <br/>
-            <div class="sectioncontent optional"><span># risk details</span><br/>
-              <span class="optional">risk: <output id="o_risk"></output></span><br/>
-              <span class="optional">riskDecider: <output id="o_riskDecider"></output></span><br/>
-              <span class="optional">riskGoal: <output id="o_riskGoal"></output></span><br/>
-              <span class="optional">riskOwner: <output id="o_riskOwner"></output></span><br/>
-              <br/></div .sectioncontent>
-            <div class="sectioncontent required"><span># additions</span><br/>
-              state: <output id="o_state"></output><br/>
-              <span class="optional">expertise:<br/><!-- ARRAY OUTPUTS MUST BE ALIGNED FLUSH RIGHT -->
-                <output id="o_expertise" class="array"></output></span>
-              <span class="optional">note: |<br/>
-                <output id="o_note"></output></span><br/>
-              <span class="optional">flags:<br/><!-- ARRAY OUTPUTS MUST BE ALIGNED FLUSH RIGHT -->
-                <output id="o_flags" class="array"></output></span>
-              <br/></div .section>
-            <div class="sectioncontent optional"><span># Linked contexts</span><br/>
-              <span class="optional">historic:<br/><!-- ARRAY OUTPUTS MUST BE ALIGNED FLUSH RIGHT -->
-                <output id="o_historic" class="array"></output></span>
-              <span class="optional">infer:<br/><!-- ARRAY OUTPUTS MUST BE ALIGNED FLUSH RIGHT -->
-                <output id="o_infer" class="array"></output></span>
-              <span class="optional">basis:<br/><!-- ARRAY OUTPUTS MUST BE ALIGNED FLUSH RIGHT -->
-                <output id="o_basis" class="array"></output></span>
-              <span class="optional">check:<br/><!-- ARRAY OUTPUTS MUST BE ALIGNED FLUSH RIGHT -->
-                <output id="o_check" class="array"></output></span>
-              <span class="optional">validity:<br/><!-- ARRAY OUTPUTS MUST BE ALIGNED FLUSH RIGHT -->
-                <output id="o_validity" class="array"></output></span>
-              <br/></div .sectioncontent>
-            <div class="sectioncontent optional"><span># Extended fields</span><br/>
-              <span class="optional">threatActor: <output id="o_threatActor"></output></span><br/>
-              <span class="optional">threatClass: <output id="o_threatClass"></output></span><br/>
-              <span class="optional">threatDefence: <output id="o_threatDefence"></output></span><br/>
-              <span class="optional">threatOccurence: <output id="o_threatOccurence"></output></span><br/>
-              <span class="optional">threatSeverity: <output id="o_threatSeverity"></output></span><br/>
-              <br/>
-              <span class="optional">riskControl: <output id="o_riskControl"></output></span><br/>
-              <span class="optional">riskType: <output id="o_riskType"></output></span><br/></div .section>
-          </div #contentcontent>
+registrationDate: <output id="o_registrationDate"></output><br/> 
+team: <output id="o_team"></output><br/> 
+# scenario definitions and scoping<br/>
+synopsis: |<br/>
+  <output id="o_synopsis"></output><br/>
+issueLink: <output id="o_link"></output><br/> 
+model: <output id="o_model"></output><br/>
+<br/>
+# threat problem statement<br/>
+asset: <output id="o_asset"></output><br/>
+assetValue: <output id="o_assetValue"></output><br/>
+parts:<br/><!-- ARRAY OUTPUTS MUST BE ALIGNED FLUSH RIGHT -->
+<output id="o_parts" class="array"></output>
+domain: <output id="o_domain"></output><br/><br/>
+threat: <output id="o_threat"></output><br/>
+playingCard: <output id="o_playingCard"></output><br/>
+threatInfo: |<br/>
+<output id="o_threatInfo"></output><br/>
+threatFix: <output id="o_threatFix"></output><br/>
+threatRating: <output id="o_threatRating"></output><br/><br/>
+<div class="sectioncontent optional"><span># risk details</span><br/>
+<span class="optional">risk: <output id="o_risk"></output></span><br/>
+<span class="optional">riskDecider: <output id="o_riskDecider"></output></span><br/>
+<span class="optional">riskGoal: <output id="o_riskGoal"></output></span><br/>
+<span class="optional">riskOwner: <output id="o_riskOwner"></output></span><br/>
+<br/></div .sectioncontent>
+<div class="sectioncontent required"><span># additions</span><br/>
+state: <output id="o_state"></output><br/>
+<span class="optional">expertise:<br/><!-- ARRAY OUTPUTS MUST BE ALIGNED FLUSH RIGHT -->
+<output id="o_expertise" class="array"></output></span>
+<span class="optional">note: |<br/>
+<output id="o_note"></output></span><br/>
+<span class="optional">flags:<br/><!-- ARRAY OUTPUTS MUST BE ALIGNED FLUSH RIGHT -->
+<output id="o_flags" class="array"></output></span>
+<br/></div .section>
+<div class="sectioncontent optional"><span># Linked contexts</span><br/>
+<span class="optional">historic:<br/><!-- ARRAY OUTPUTS MUST BE ALIGNED FLUSH RIGHT -->
+<output id="o_historic" class="array"></output></span>
+<span class="optional">infer:<br/><!-- ARRAY OUTPUTS MUST BE ALIGNED FLUSH RIGHT -->
+<output id="o_infer" class="array"></output></span>
+<span class="optional">basis:<br/><!-- ARRAY OUTPUTS MUST BE ALIGNED FLUSH RIGHT -->
+<output id="o_basis" class="array"></output></span>
+<span class="optional">check:<br/><!-- ARRAY OUTPUTS MUST BE ALIGNED FLUSH RIGHT -->
+<output id="o_check" class="array"></output></span>
+<span class="optional">validity:<br/><!-- ARRAY OUTPUTS MUST BE ALIGNED FLUSH RIGHT -->
+<output id="o_validity" class="array"></output></span>
+<br/></div .sectioncontent>
+<div class="sectioncontent optional"><span># Extended fields</span><br/>
+<span class="optional">threatActor: <output id="o_threatActor"></output></span><br/>
+<span class="optional">threatClass: <output id="o_threatClass"></output></span><br/>
+<span class="optional">threatDefence: <output id="o_threatDefence"></output></span><br/>
+<span class="optional">threatOccurence: <output id="o_threatOccurence"></output></span><br/>
+<span class="optional">threatSeverity: <output id="o_threatSeverity"></output></span><br/>
+<br/>
+<span class="optional">riskControl: <output id="o_riskControl"></output></span><br/>
+<span class="optional">riskType: <output id="o_riskType"></output></span><br/></div .section>
+</div #contentcontent>
           <div class="right" data-tip="download YAML-file"><input type="submit" value="Download"/></div>
 
         </div #right>
