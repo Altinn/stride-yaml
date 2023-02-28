@@ -325,7 +325,7 @@
           });
 
           if (!el.parentElement.classList.contains("array")) { //Arrays are formatted in a textarea
-            yamlobj.innerHTML = val;
+            yamlobj.innerHTML = val; //TODO: Ugly
           }
 
           cl.style.visibility = "hidden";
@@ -447,7 +447,8 @@
             <label><input value="anomaly" name="template" type="radio"/>anomaly (avvik); non-conformance</label>
           </div #template>
 
-          <div id="team">
+          <div class="field" id="team">
+            <div class="brief">Team</div .brief>
             <select name="team" oninput="change(this);" required>
               <option value="team-fdk">team-fdk</option>
               <option value="team-platform">team-platform</option>
@@ -465,7 +466,7 @@
             <div class="brief">Synopsis</div .brief>
             <div class="desc">Synopsis of limitations, boundaries or scenario summary.</div .desc>
             <input name="synopsis" type="text" placeholder="one-liner beskrivelse..." class="long" oninput="change(this);" required/>
-            <div class="under">system for server-side generering av PDF med kjøring av React-app i Chromium innenfor Tjenesteeiers AKS-cluster</div .under>
+            <div class="under">system for server-side PDF generation with React app in Chromium withing sevice owner AKS-cluster</div .under>
           </div .field>
 
           <div class="field" id="threatInfo">
