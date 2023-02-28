@@ -40,7 +40,7 @@
       .desc a { font-weight: bold; text-decoration: none; color: #c62a; }
       .under { margin-top: 0.5ex; filter: opacity(30%); font-style: italic; }
       .under:not(:empty)::before { content: "E.g: "; font-style: normal; }
-      #o_synopsis, #o_threatInfo, #o_note { margin: 0 1em; display: inline-block; }
+      #o_synopsis, #o_threatInfo, #o_note,#o_threatFix { margin: 0 1em; display: inline-block; }
       output.array { margin: 0 1em; display: block; clear: both; }
 
       /*
@@ -99,9 +99,7 @@
   </head>
   <body>
 
-    <h1>YAML-template utfylling</h1>
-    <h3>- last ned ferdig YAML-fil som følger et YAML-skjema</h3>
-    
+    <h1>YAML-template</h1>
     <script>
       window.EOP_CARDS_DECK = {
   suit_order: [
@@ -441,11 +439,6 @@
     <form onsubmit="return downloader(this);">
       <div id="wrap">
         <div id="schema">
-          <div id="template">
-            <span>Quick template</span>
-            <label><input value="threat" name="template" type="radio" checked/>threat</label>
-            <label><input value="anomaly" name="template" type="radio"/>anomaly (avvik); non-conformance</label>
-          </div #template>
 
           <div class="field" id="team">
             <div class="brief">Team</div .brief>
@@ -466,7 +459,7 @@
             <div class="brief">Synopsis</div .brief>
             <div class="desc">Synopsis of limitations, boundaries or scenario summary.</div .desc>
             <input name="synopsis" type="text" placeholder="one-liner beskrivelse..." class="long" oninput="change(this);" required/>
-            <div class="under">system for server-side PDF generation with React app in Chromium withing sevice owner AKS-cluster</div .under>
+            <div class="under">System for server-side PDF generation with React app in Chromium withing sevice owner AKS-cluster</div .under>
           </div .field>
 
           <div class="field" id="threatInfo">
@@ -531,7 +524,7 @@
 
           <div class="field" id="threat">
             <div class="brief">Threat</div .brief>
-            <div class="desc">STRIDE threat methodology with TRIM extension from F-Secure. <a data-tip="lenke til Github F-secure STRIDE-TRIM" href="https://github.com/F-Secure/elevation-of-privacy">➦</a></div .desc>
+            <div class="desc">STRIDE threat methodology with TRIM extension from F-Secure. <a data-tip="Github F-secure STRIDE-TRIM" href="https://github.com/F-Secure/elevation-of-privacy">➦</a></div .desc>
             <select name="threat" onchange="{change(this);cardOptions(value)}" required>
               <option value="" selected></option>
               <option value="Spoofing">Spoofing</option>
@@ -545,24 +538,24 @@
               <option value="Inference">Inference of PII</option>
               <option value="Minimisation">Mnimisation of PII</option>
             </select>
-            <div class="under">TRIM privacy extensions - Transport of personal data across geopolitical or contractual boundaries ** Retention and Removal of personal data ** Inference of personal data from other personal data, for example, through correlation ** Minimisation of personal data and its use.</div .under>
           </div .field>
 
           <div class="field">
             <div class="brief">Playing card</div .brief>
             <div class="desc">Choose playing card have been acceped as correct description of the threat.</div .desc>
             <select name="playingCard" id="playingCard" onchange="change(this);"></select>
-            <div class="under">The playing cards are based on STRIDE-TRIM and the options available are based on the above statement.</div .under>
+            <div class="under">Options available are based on the above selection.</div .under>
           </div>
 
           <div class="field" id="threatRating">
             <div class="brief">Threat rating</div .brief>
             <div class="desc">The team evaluates the importance of this threat as follows.</div .desc>
             <select name="threatRating" onchange="change(this);" required>
-              <option value="void">temporary</option>
+              <option value="" selected></option>
+              <option value="assistance needed">assistamce needed for triage</option>
               <option value="low">low</option>
               <option value="medium">medium</option>
-              <option value="high" selected>high</option>
+              <option value="high">high</option>
               <option value="top">top</option>
             </select>
             <div class="under">What has the team set as the level of importance for management to process and get to a risk decision in line with the enterprise risk appetite on this threat</div .under>
@@ -571,7 +564,8 @@
           <div class="field" id="threatFix">
             <div class="brief">Threat fix</div .brief>
             <div class="desc">Direction, or area of remediation, for handling the threat.</div .desc>
-            <input name="threatFix" type="text" placeholder="..." oninput="change(this);"/>
+            <textarea name="threatFix" type="text" placeholder="Encryption of data at rest;..." oninput="change(this);"></textarea>
+            <div class="textclone"></div> <!-- textclone-div must be immediate sibling following textarea -->
             <div class="under">encryption of data at rest; hardening of host; scrubbing of PII from logs; ...</div .under>
           </div .field>
 
@@ -952,7 +946,8 @@ threat: <output id="o_threat"></output><br/>
 playingCard: <output id="o_playingCard"></output><br/>
 threatInfo: |<br/>
 <output id="o_threatInfo"></output><br/>
-threatFix: <output id="o_threatFix"></output><br/>
+threatFix: |<br/>
+<output id="o_threatFix"></output><br/>
 threatRating: <output id="o_threatRating"></output><br/><br/>
 <div class="sectioncontent optional"><span># risk details</span><br/>
 <span class="optional">risk: <output id="o_risk"></output></span><br/>
