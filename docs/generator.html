@@ -552,7 +552,7 @@
             <div class="desc">The team evaluates the importance of this threat as follows.</div .desc>
             <select name="threatRating" onchange="change(this);" required>
               <option value="" selected></option>
-              <option value="assistance needed">assistamce needed for triage</option>
+              <option value="assistance needed">assistance needed for triage</option>
               <option value="low">low</option>
               <option value="medium">medium</option>
               <option value="high">high</option>
@@ -707,10 +707,10 @@
           <div class="section" onclick="return toggle(this);">Extended threat attributes</div .section>
           <div class="collapse">
 
-            <div class="field" id="state">
-              <div class="brief">State</div .brief>
+            <div class="field" id="lifecycle">
+              <div class="brief">Life cycle</div .brief>
               <div class="desc">Lifecycle of this threat.</div .desc>
-              <select name="state" onchange="change(this);" required>
+              <select name="lifecycle" onchange="change(this);" required>
                 <option value="begin" selected>begin</option>
                 <option value="clarify">clarify</option>
                 <option value="defer">defer</option>
@@ -720,15 +720,18 @@
               <div class="under">What is the current phase in the lifecycle for this file.</div .under>
             </div .field>
 
+            <!--
             <div class="field array" id="expertise">
               <div class="brief">Expertise</div .brief>
               <div class="desc">Someone who needs to add more context before proceeding.</div .desc>
               <!-- input name="expertise" type="text" placeholder=" - ..." oninput="change(this);"/ -->
+                <!--
               <textarea name="expertise" type="text" placeholder=" - ... &#x0a; - ..." oninput="change(this);"></textarea>
               <div class="textclone"></div> <!-- textclone-div must be immediate sibling following textarea -->
+              <!--
               <div class="under">Github usernames - for quick notifications on auto-generated issues based on TM</div .under>
             </div .field>
-
+            -->
             <div class="field" id="note">
               <div class="brief">Note</div .brief>
               <div class="desc">Current workflow or some additional context to handling this threat.</div .desc>
@@ -956,7 +959,7 @@ threatRating: <output id="o_threatRating"></output><br/><br/>
 <span class="optional">riskOwner: <output id="o_riskOwner"></output></span><br/>
 <br/></div .sectioncontent>
 <div class="sectioncontent required"><span># additions</span><br/>
-state: <output id="o_state"></output><br/>
+lifecycle: <output id="o_lifecycle"></output><br/>
 <span class="optional">expertise:<br/><!-- ARRAY OUTPUTS MUST BE ALIGNED FLUSH RIGHT -->
 <output id="o_expertise" class="array"></output></span>
 <span class="optional">note: |<br/>
